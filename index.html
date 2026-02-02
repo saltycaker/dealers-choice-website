@@ -40,7 +40,7 @@
         <a href="#process" class="hover:text-indigo-400 transition-colors">Process</a>
         <a href="#tech" class="hover:text-indigo-400 transition-colors">Stack</a>
       </div>
-      <button class="bg-white text-black px-6 py-2 font-bold hover:bg-indigo-500 hover:text-white transition-all">START RECRUITING</button>
+      <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})" class="bg-white text-black px-6 py-2 font-bold hover:bg-indigo-500 hover:text-white transition-all">START RECRUITING</button>
     </nav>
 
     <div class="max-w-6xl">
@@ -52,7 +52,7 @@
         <p class="max-w-md text-zinc-400 text-lg">Making smart hiring decisions simple, fast, and automatic by handling sourcing, outreach, and follow-ups in one system.</p>
         <div class="mono text-xs flex flex-col gap-2 border-l border-indigo-500 pl-6">
           <span class="text-zinc-500">STATUS: AVAILABLE</span>
-          <span class="text-zinc-500">LOC: 37.77° N, 122.4194° W</span>
+          <span class="text-zinc-500">LOC: 37.7749° N, 122.4194° W</span>
         </div>
       </div>
     </div>
@@ -149,8 +149,8 @@
     <div class="max-w-7xl mx-auto text-center">
       <h2 class="text-[clamp(2rem,10vw,6rem)] font-black tracking-tighter leading-none mb-8">READY TO RECRUIT<br/>SMARTER?</h2>
       <div class="flex justify-center gap-6 flex-wrap">
-        <button class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
-        <button class="border-2 border-white px-10 py-4 font-bold text-xl hover:bg-white hover:text-black transition-all">VIEW PRICING</button>
+        <button onclick="window.location.href='mailto:bernardliatme@outlook.com?subject=Demo Request - Dealer\'s Choice&body=Hi, I\'d like to book a demo of your recruitment platform.'" class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
+        <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})" class="border-2 border-white px-10 py-4 font-bold text-xl hover:bg-white hover:text-black transition-all">VIEW PRICING</button>
       </div>
     </div>
   </section>
@@ -158,11 +158,11 @@
   <!-- FOOTER -->
   <footer class="py-16 px-10 border-t border-white/10">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-      <div class="mono text-xs text-zinc-500">© 2026 Dealer's Choice. All rights reserved.</div>
+      <div class="mono text-xs text-zinc-500">© 2025 Dealer's Choice. All rights reserved.</div>
       <div class="flex gap-8 mono text-xs">
-        <a href="#" class="hover:text-indigo-400 transition-colors">Privacy</a>
-        <a href="#" class="hover:text-indigo-400 transition-colors">Terms</a>
-        <a href="#" class="hover:text-indigo-400 transition-colors">Contact</a>
+        <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We respect your privacy. Contact bernardliatme@outlook.com for details.')" class="hover:text-indigo-400 transition-colors">Privacy</a>
+        <a href="#" onclick="event.preventDefault(); alert('Terms of Service: By using our services, you agree to our terms. Contact bernardliatme@outlook.com for full terms.')" class="hover:text-indigo-400 transition-colors">Terms</a>
+        <a href="mailto:bernardliatme@outlook.com?subject=Contact - Dealer's Choice" class="hover:text-indigo-400 transition-colors">Contact</a>
       </div>
     </div>
   </footer>
@@ -197,7 +197,7 @@
         </div>
         <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
           <h4 class="text-xl font-bold mb-4 text-indigo-400">Pricing</h4>
-          <div class="text-5xl font-black mb-2">$199<span class="text-2xl text-zinc-500">/mo</span></div>
+          <div class="text-5xl font-black mb-2">$999<span class="text-2xl text-zinc-500">/mo</span></div>
           <p class="text-zinc-400">Unlimited campaigns</p>
         </div>
       </div>
@@ -206,7 +206,7 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <button onclick="openCoinbaseCheckout('stack')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
-            Subscribe for $199/month
+            Subscribe for $999/month
           </button>
           <div class="text-center text-zinc-500 text-sm">or</div>
           <div class="flex gap-3">
@@ -247,7 +247,7 @@
         </div>
         <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
           <h4 class="text-xl font-bold mb-4 text-indigo-400">Pricing</h4>
-          <div class="text-5xl font-black mb-2">$399<span class="text-2xl text-zinc-500">/mo</span></div>
+          <div class="text-5xl font-black mb-2">$1999<span class="text-2xl text-zinc-500">/mo</span></div>
           <p class="text-zinc-400">Unlimited searches</p>
         </div>
       </div>
@@ -256,7 +256,7 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <button onclick="openCoinbaseCheckout('croupier')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
-            Subscribe for $399/month
+            Subscribe for $1999/month
           </button>
           <div class="text-center text-zinc-500 text-sm">or</div>
           <div class="flex gap-3">
@@ -297,7 +297,7 @@
         </div>
         <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
           <h4 class="text-xl font-bold mb-4 text-indigo-400">Pricing</h4>
-          <div class="text-5xl font-black mb-2">$149<span class="text-2xl text-zinc-500">/mo</span></div>
+          <div class="text-5xl font-black mb-2">$1149<span class="text-2xl text-zinc-500">/mo</span></div>
           <p class="text-zinc-400">Real-time updates</p>
         </div>
       </div>
@@ -306,7 +306,7 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <button onclick="openCoinbaseCheckout('house-edge')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
-            Subscribe for $149/month
+            Subscribe for $1149/month
           </button>
           <div class="text-center text-zinc-500 text-sm">or</div>
           <div class="flex gap-3">
@@ -613,7 +613,4 @@
 </script>
 
 </body>
-
 </html>
-
-
