@@ -375,28 +375,24 @@
   };
 
   // ============================================
-  // STRIPE CHECKOUT
+  // STRIPE CHECKOUT - PROFESSIONAL CHECKOUT PAGE
   // ============================================
   async function openStripeCheckout(product) {
     try {
-      const email = prompt('Enter your email address:');
-      if (!email || !email.includes('@')) {
-        alert('❌ Please enter a valid email address');
-        return;
-      }
-      
-      showLoadingModal('Creating checkout session...');
+      showLoadingModal('Opening secure checkout...');
       
       const response = await fetch(`${WORKER_URL}/api/create-checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product, email })
+        body: JSON.stringify({ product })
       });
       
       const data = await response.json();
       closeLoadingModal();
       
       if (data.url) {
+        // Redirect to professional Stripe Checkout page
+        // Shows: Visa, Mastercard, Amex logos + secure payment form
         window.location.href = data.url;
       } else {
         alert('❌ Failed to create checkout. Please try again or contact support.');
