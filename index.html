@@ -224,14 +224,14 @@
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
           <button onclick="openStripeCheckout('stack')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
-            Pay with Card - $199/month
+            💳 Pay with Card - $199/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
           <button onclick="openCoinbaseCheckout('stack')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
-            Pay with Crypto - $199/month
+            ₿ Pay with Crypto - $199/month
           </button>
           
           <div class="border-t border-zinc-700 my-6"></div>
@@ -288,14 +288,14 @@
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
           <button onclick="openStripeCheckout('croupier')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
-            Pay with Card - $399/month
+            💳 Pay with Card - $399/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
           <button onclick="openCoinbaseCheckout('croupier')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
-            Pay with Crypto - $399/month
+            ₿ Pay with Crypto - $399/month
           </button>
           
           <div class="border-t border-zinc-700 my-6"></div>
@@ -352,14 +352,14 @@
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
           <button onclick="openStripeCheckout('house-edge')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
-            Pay with Card - $149/month
+            💳 Pay with Card - $149/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
           <button onclick="openCoinbaseCheckout('house-edge')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
-            Pay with Crypto - $149/month
+            ₿ Pay with Crypto - $149/month
           </button>
           
           <div class="border-t border-zinc-700 my-6"></div>
@@ -460,8 +460,8 @@
   // ============================================
   // CONFIGURATION - UPDATE THESE TWO LINES!
   // ============================================
-  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SwIvK2NQnc1UWJnZLBHB6vxpsVoPrZUKGZJbEXZnJwyXGiDDAL04QVBHsD273HmtdbPsrCKEkrX3tQSdsU4gKNw00GOyVfLvf'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
-  const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev/'; // ← CHANGE THIS!
+  const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_KEY_HERE'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
+  const WORKER_URL = 'https://payment-handler.YOUR-USERNAME.workers.dev'; // ← CHANGE THIS!
 
   // Coinbase Commerce checkout URLs
   const checkoutUrls = {
@@ -662,7 +662,8 @@
       if (result.valid) {
         localStorage.setItem('dealersToken', token);
         localStorage.setItem('dealersProduct', product);
-        showDashboard(product);
+        alert('✅ Token is valid! Access granted.');
+        // showDashboard(product); // Temporarily disabled for testing
       } else {
         alert('❌ Invalid token. Please check your token or contact bernardliatme@outlook.com');
       }
@@ -854,5 +855,3 @@
 
 </body>
 </html>
-
-
