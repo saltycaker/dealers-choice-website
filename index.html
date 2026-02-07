@@ -166,7 +166,7 @@
     <div class="max-w-7xl mx-auto text-center">
       <h2 class="text-[clamp(2rem,10vw,6rem)] font-black tracking-tighter leading-none mb-8">READY TO RECRUIT<br/>SMARTER?</h2>
       <div class="flex justify-center gap-6 flex-wrap">
-        <button onclick="window.location.href='mailto:bernardliatme@outlook.com?subject=Demo Request - Dealer\\'s Choice&body=Hi, I\\'d like to book a demo of your recruitment platform.'" class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
+        <button type="button" onclick="window.location.href='mailto:bernardliatme@outlook.com?subject=Demo Request - Dealer\\'s Choice&body=Hi, I\\'d like to book a demo of your recruitment platform.'" class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
         <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})" class="border-2 border-white px-10 py-4 font-bold text-xl hover:bg-white hover:text-black transition-all">VIEW PRICING</button>
       </div>
     </div>
@@ -223,14 +223,14 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
-          <button onclick="openStripeCheckout('stack')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
+          <button type="button" onclick="openStripeCheckout('stack')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $199/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
-          <button onclick="openCoinbaseCheckout('stack')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
+          <button type="button" onclick="openCoinbaseCheckout('stack')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $199/month
           </button>
           
@@ -240,7 +240,7 @@
           <div class="text-center text-zinc-400 text-sm mb-3">Already have an access token?</div>
           <div class="flex gap-3">
             <input type="text" id="stackToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
-            <button onclick="validateTokenOnPage('stack')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
+            <button type="button" onclick="validateTokenOnPage('stack')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
               Validate
             </button>
           </div>
@@ -287,14 +287,14 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
-          <button onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
+          <button type="button" onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $399/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
-          <button onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
+          <button type="button" onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $399/month
           </button>
           
@@ -304,7 +304,7 @@
           <div class="text-center text-zinc-400 text-sm mb-3">Already have an access token?</div>
           <div class="flex gap-3">
             <input type="text" id="croupierToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
-            <button onclick="validateTokenOnPage('croupier')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
+            <button type="button" onclick="validateTokenOnPage('croupier')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
               Validate
             </button>
           </div>
@@ -351,14 +351,14 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
-          <button onclick="openStripeCheckout('house-edge')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
+          <button type="button" onclick="openStripeCheckout('house-edge')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $149/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
-          <button onclick="openCoinbaseCheckout('house-edge')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
+          <button type="button" onclick="openCoinbaseCheckout('house-edge')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $149/month
           </button>
           
@@ -368,7 +368,7 @@
           <div class="text-center text-zinc-400 text-sm mb-3">Already have an access token?</div>
           <div class="flex gap-3">
             <input type="text" id="houseToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
-            <button onclick="validateTokenOnPage('house-edge')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
+            <button type="button" onclick="validateTokenOnPage('house-edge')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
               Validate
             </button>
           </div>
@@ -384,7 +384,7 @@
     
     <!-- Modal Header -->
     <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 relative">
-      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-white/80 hover:text-white text-2xl">×</button>
+      <button type="button" onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-white/80 hover:text-white text-2xl">×</button>
       <h2 class="text-2xl font-black text-center mb-1" id="modal-product-name">The Croupier</h2>
       <p class="text-center text-white/80" id="modal-product-price">$399 / month</p>
       <p class="text-xs text-center text-white/60 mt-2">Secure checkout powered by Stripe</p>
@@ -460,8 +460,8 @@
   // ============================================
   // CONFIGURATION - UPDATE THESE TWO LINES!
   // ============================================
-  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SwIvK2NQnc1UWJnZLBHB6vxpsVoPrZUKGZJbEXZnJwyXGiDDAL04QVBHsD273HmtdbPsrCKEkrX3tQSdsU4gKNw00GOyVfLvf'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
-  const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev'; // ← CHANGE THIS!
+  const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_KEY_HERE'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
+  const WORKER_URL = 'https://payment-handler.YOUR-USERNAME.workers.dev'; // ← CHANGE THIS!
 
   // Coinbase Commerce checkout URLs
   const checkoutUrls = {
