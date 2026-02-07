@@ -287,14 +287,14 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
-          <button onclick="openStripeCheckout('croupier')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
+          <button onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $399/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
-          <button onclick="openCoinbaseCheckout('croupier')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
+          <button onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $399/month
           </button>
           
@@ -448,7 +448,7 @@
 
       <!-- Security -->
       <div class="text-center text-xs text-zinc-500">
-        🔒 Your payment information is secure and encrypted
+        Your payment information is secure and encrypted
       </div>
 
     </form>
@@ -460,8 +460,8 @@
   // ============================================
   // CONFIGURATION - UPDATE THESE TWO LINES!
   // ============================================
-  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SwIvK2NQnc1UWJnZLBHB6vxpsVoPrZUKGZJbEXZnJwyXGiDDAL04QVBHsD273HmtdbPsrCKEkrX3tQSdsU4gKNw00GOyVfLvf'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
-  const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev'; // ← CHANGE THIS!
+  const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_KEY_HERE'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
+  const WORKER_URL = 'https://payment-handler.YOUR-USERNAME.workers.dev'; // ← CHANGE THIS!
 
   // Coinbase Commerce checkout URLs
   const checkoutUrls = {
@@ -643,7 +643,7 @@
     const token = document.getElementById(tokenInputId).value.trim();
     
     if (!token) {
-      alert('❌ Please enter your access token');
+      alert('Please enter your access token');
       return;
     }
     
@@ -664,12 +664,12 @@
         localStorage.setItem('dealersProduct', product);
         showDashboard(product);
       } else {
-        alert('❌ Invalid token. Please check your token or contact bernardliatme@outlook.com');
+        alert('Invalid token. Please check your token or contact bernardliatme@outlook.com');
       }
     } catch (error) {
       console.error('Token validation error:', error);
       closeLoadingModal();
-      alert('❌ Error validating token. Please try again.');
+      alert('Error validating token. Please try again.');
     }
   }
 
@@ -714,10 +714,10 @@
         <div class="bg-black/50 border border-indigo-500/30 rounded-lg p-6 mb-6">
           <p class="text-sm text-zinc-300 mb-4">After payment is confirmed:</p>
           <ol class="text-left text-sm text-zinc-400 space-y-2">
-            <li>1️⃣ Access token generated automatically</li>
-            <li>2️⃣ Token sent to your email</li>
-            <li>3️⃣ Use token to access dashboard</li>
-            <li>4️⃣ Issues? Email bernardliatme@outlook.com</li>
+            <li>Access token generated automatically</li>
+            <li>Token sent to your email</li>
+            <li>Use token to access dashboard</li>
+            <li>Issues? Email bernardliatme@outlook.com</li>
           </ol>
         </div>
         <button onclick="closePaymentWaitingModal()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
@@ -739,7 +739,7 @@
   function showDashboard(product) {
     const dashboardUrls = {
       'stack': 'http://localhost:5678/webhook/stack', // ← UPDATE THIS with your n8n webhook URL
-      'croupier': 'http://localhost:5678/webhook/recruitment-form', // ← UPDATE THIS
+      'croupier': 'https://dealers-choice-systems.vercel.app', // ← Your Vercel site
       'house-edge': 'http://localhost:5678/webhook/house-edge' // ← UPDATE THIS
     };
     
@@ -760,7 +760,7 @@
     modal.innerHTML = `
       <div class="bg-zinc-900 border-2 border-green-500 rounded-2xl p-10 max-w-2xl w-full">
         <div class="text-center mb-8">
-          <div class="text-6xl mb-4">✅</div>
+          <div class="text-6xl mb-4"></div>
           <h2 class="text-4xl font-black mb-4 text-green-400">Access Granted!</h2>
           <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
           <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
@@ -768,7 +768,7 @@
 
         <div class="space-y-3">
           <a href="${dashboardUrls[product]}" target="_blank" class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-5 rounded-xl font-black text-xl text-center hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105">
-            🚀 START USING ${productNames[product].toUpperCase()}
+            START USING ${productNames[product].toUpperCase()}
           </a>
           <button onclick="this.parentElement.parentElement.parentElement.remove()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
             Close
@@ -792,7 +792,7 @@
       modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
       modal.innerHTML = `
         <div class="bg-zinc-900 border-2 border-green-500 rounded-2xl p-10 max-w-md w-full text-center">
-          <div class="text-6xl mb-4">🎉</div>
+          <div class="text-6xl mb-4"></div>
           <h2 class="text-3xl font-black mb-4 text-green-400">Payment Successful!</h2>
           <p class="text-zinc-300 mb-6">Your access token has been generated and sent to your email.</p>
           <p class="text-zinc-400 mb-6">Check your inbox, then enter it below to get started!</p>
@@ -854,4 +854,3 @@
 
 </body>
 </html>
-
