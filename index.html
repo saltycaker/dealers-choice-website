@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dealer's Choice</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://js.stripe.com/v3/"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="icon" href="Ace.svg" type="image/svg+xml">
    
@@ -21,22 +20,6 @@
     html { scroll-behavior: smooth; }
     .page { display: none; }
     .page.active { display: block; }
-    
-    /* Stripe Elements styling */
-    .StripeElement {
-      background-color: #18181b;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid #3f3f46;
-      transition: border-color 0.3s;
-    }
-    .StripeElement--focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
-    }
-    .StripeElement--invalid {
-      border-color: #ef4444;
-    }
   </style>
 </head>
 <body>
@@ -378,90 +361,11 @@
   </section>
 </div>
 
-<!-- CHECKOUT MODAL -->
-<div id="checkout-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
-  <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl max-w-lg w-full overflow-hidden">
-    
-    <!-- Modal Header -->
-    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 relative">
-      <button type="button" onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-white/80 hover:text-white text-2xl">×</button>
-      <h2 class="text-2xl font-black text-center mb-1" id="modal-product-name">The Croupier</h2>
-      <p class="text-center text-white/80" id="modal-product-price">$399 / month</p>
-      <p class="text-xs text-center text-white/60 mt-2">Secure checkout powered by Stripe</p>
-    </div>
-
-    <!-- Modal Form -->
-    <form id="stripe-payment-form" class="p-6 space-y-4">
-      
-      <!-- Email -->
-      <div>
-        <label class="block text-sm font-bold mb-2 text-zinc-300">Email Address</label>
-        <input 
-          type="email" 
-          id="modal-email" 
-          required
-          placeholder="you@example.com"
-          class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-        >
-      </div>
-
-      <!-- Card Element -->
-      <div>
-        <label class="block text-sm font-bold mb-2 text-zinc-300">Card Information</label>
-        <div id="card-element-modal" class="mb-2"></div>
-        <div id="card-errors-modal" class="text-red-400 text-sm mt-2"></div>
-      </div>
-
-      <!-- Payment Logos -->
-      <div class="flex items-center justify-center gap-3 py-3 border-t border-zinc-800">
-        <div class="text-xs text-zinc-500 mr-2">We accept:</div>
-        <svg class="h-6 opacity-70" viewBox="0 0 48 32" fill="none">
-          <rect width="48" height="32" rx="4" fill="#1A1F71"/>
-          <text x="24" y="20" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="12">VISA</text>
-        </svg>
-        <svg class="h-6 opacity-70" viewBox="0 0 48 32" fill="none">
-          <rect width="48" height="32" rx="4" fill="#EB001B"/>
-          <circle cx="18" cy="16" r="10" fill="#FF5F00"/>
-          <circle cx="30" cy="16" r="10" fill="#F79E1B"/>
-        </svg>
-        <svg class="h-6 opacity-70" viewBox="0 0 48 32" fill="none">
-          <rect width="48" height="32" rx="4" fill="#006FCF"/>
-          <text x="24" y="20" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="8">AMEX</text>
-        </svg>
-      </div>
-
-      <!-- Submit Button -->
-      <button 
-        type="submit" 
-        id="modal-submit-button"
-        class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <span id="modal-button-text">Subscribe Now</span>
-        <span id="modal-button-spinner" class="hidden">
-          <svg class="animate-spin h-5 w-5 inline-block" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          Processing...
-        </span>
-      </button>
-
-      <!-- Security -->
-      <div class="text-center text-xs text-zinc-500">
-        Your payment information is secure and encrypted
-      </div>
-
-    </form>
-
-  </div>
-</div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // ============================================
-  // CONFIGURATION - UPDATE THESE TWO LINES!
+  // CONFIGURATION - UPDATE THIS LINE!
   // ============================================
-  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SwIvK2NQnc1UWJnZLBHB6vxpsVoPrZUKGZJbEXZnJwyXGiDDAL04QVBHsD273HmtdbPsrCKEkrX3tQSdsU4gKNw00GOyVfLvf';
-  const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev'; // ← CHANGE THIS!
+  const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev';
 
   // Coinbase Commerce checkout URLs
   const checkoutUrls = {
@@ -470,143 +374,33 @@
     'house-edge': 'https://commerce.coinbase.com/checkout/6617f455-c313-423c-bf6f-f41ed36fb866'
   };
 
-  // Product details for checkout modal
-  const productDetails = {
-    'stack': { name: 'The Stack', price: '$199' },
-    'croupier': { name: 'The Croupier', price: '$399' },
-    'house-edge': { name: 'The House Edge', price: '$149' }
-  };
-
-  // Current product being checked out
-  let currentCheckoutProduct = '';
-
   // ============================================
-  // STRIPE INITIALIZATION
+  // STRIPE HOSTED CHECKOUT
   // ============================================
-  const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-  const elements = stripe.elements();
-  
-  // Create card element
-  const cardElementModal = elements.create('card', {
-    style: {
-      base: {
-        color: '#ffffff',
-        fontFamily: '"Inter", sans-serif',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#71717a'
-        }
-      },
-      invalid: {
-        color: '#ef4444',
-        iconColor: '#ef4444'
-      }
-    },
-    hidePostalCode: false
-  });
-
-  // Mount card element when DOM is ready
-  document.addEventListener('DOMContentLoaded', () => {
-    cardElementModal.mount('#card-element-modal');
-    
-    // Handle real-time validation errors
-    cardElementModal.on('change', (event) => {
-      const displayError = document.getElementById('card-errors-modal');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
-
-    // Handle form submission
-    const form = document.getElementById('stripe-payment-form');
-    form.addEventListener('submit', handleStripeSubmit);
-  });
-
-  // ============================================
-  // OPEN CHECKOUT MODAL
-  // ============================================
-  function openStripeCheckout(product) {
-    currentCheckoutProduct = product;
-    const details = productDetails[product];
-    
-    // Update modal content
-    document.getElementById('modal-product-name').textContent = details.name;
-    document.getElementById('modal-product-price').textContent = details.price + ' / month';
-    
-    // Reset form
-    document.getElementById('modal-email').value = '';
-    document.getElementById('card-errors-modal').textContent = '';
-    cardElementModal.clear();
-    
-    // Show modal
-    document.getElementById('checkout-modal').classList.remove('hidden');
-  }
-
-  function closeCheckoutModal() {
-    document.getElementById('checkout-modal').classList.add('hidden');
-  }
-
-  // ============================================
-  // HANDLE STRIPE PAYMENT
-  // ============================================
-  async function handleStripeSubmit(event) {
-    event.preventDefault();
-
-    const email = document.getElementById('modal-email').value;
-    const submitButton = document.getElementById('modal-submit-button');
-    const buttonText = document.getElementById('modal-button-text');
-    const buttonSpinner = document.getElementById('modal-button-spinner');
-
-    // Disable button and show spinner
-    submitButton.disabled = true;
-    buttonText.classList.add('hidden');
-    buttonSpinner.classList.remove('hidden');
-
+  async function openStripeCheckout(product) {
     try {
-      // Step 1: Create subscription on your backend
-      const response = await fetch(`${WORKER_URL}/api/create-subscription`, {
+      showLoadingModal('Creating checkout session...');
+      
+      // Call Worker to create Stripe Checkout Session
+      const response = await fetch(`${WORKER_URL}/api/create-checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          product: currentCheckoutProduct,
-          email 
-        })
+        body: JSON.stringify({ product })
       });
-
+      
       const data = await response.json();
-
-      if (!data.clientSecret) {
-        throw new Error('Failed to create subscription');
-      }
-
-      // Step 2: Confirm payment with Stripe
-      const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: cardElementModal,
-          billing_details: { email }
-        }
-      });
-
-      if (error) {
-        // Show error
-        document.getElementById('card-errors-modal').textContent = error.message;
-        submitButton.disabled = false;
-        buttonText.classList.remove('hidden');
-        buttonSpinner.classList.add('hidden');
+      closeLoadingModal();
+      
+      if (data.url) {
+        // Redirect to Stripe Hosted Checkout
+        window.location.href = data.url;
       } else {
-        // Payment succeeded!
-        closeCheckoutModal();
-        window.location.href = `/?payment=success&product=${currentCheckoutProduct}`;
+        alert('Failed to create checkout session. Please try again.');
       }
-
     } catch (error) {
-      console.error('Payment error:', error);
-      document.getElementById('card-errors-modal').textContent = 'Payment failed. Please try again.';
-      submitButton.disabled = false;
-      buttonText.classList.remove('hidden');
-      buttonSpinner.classList.add('hidden');
+      console.error('Checkout error:', error);
+      closeLoadingModal();
+      alert('Error creating checkout. Please try again.');
     }
   }
 
@@ -664,7 +458,7 @@
         localStorage.setItem('dealersProduct', product);
         showDashboard(product);
       } else {
-        alert('Invalid token. Please check your token or contact bernardliatme@outlook.com');
+        alert('Invalid token. Please check your token or contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="553730273b342731393c34213830153a2021393a3a3e7b363a38">[email&#160;protected]</a>');
       }
     } catch (error) {
       console.error('Token validation error:', error);
@@ -717,7 +511,7 @@
             <li>Access token generated automatically</li>
             <li>Token sent to your email</li>
             <li>Use token to access dashboard</li>
-            <li>Issues? Email bernardliatme@outlook.com</li>
+            <li>Issues? Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="620007100c0310060e0b03160f07220d17160e0d0d094c010d0f">[email&#160;protected]</a></li>
           </ol>
         </div>
         <button onclick="closePaymentWaitingModal()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
@@ -845,4 +639,12 @@
 
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(page => {
-      page
+      page.classList.remove('active');
+    });
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
