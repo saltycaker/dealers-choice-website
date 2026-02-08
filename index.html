@@ -179,7 +179,7 @@
       <div class="flex gap-8 mono text-xs">
         <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We respect your privacy. Contact bernardliatme@outlook.com for details.')" class="hover:text-indigo-400 transition-colors">Privacy</a>
         <a href="#" onclick="event.preventDefault(); alert('Terms of Service: By using our services, you agree to our terms. Contact bernardliatme@outlook.com for full terms.')" class="hover:text-indigo-400 transition-colors">Terms</a>
-        <a href="mailto:bernardliatme@outlook.com" class="hover:text-indigo-400 transition-colors">Contact</a>
+        <a href="/cdn-cgi/l/email-protection#0f6d6a7d616e7d6b63666e7b626a4f607a7b63606064216c6062" class="hover:text-indigo-400 transition-colors">Contact</a>
       </div>
     </div>
   </footer>
@@ -287,14 +287,14 @@
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
           <!-- STRIPE CARD PAYMENT -->
-          <button type="button" onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
+          <button type="button" onclick="openStripeCheckout('croupier')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $399/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
           <!-- CRYPTO PAYMENT -->
-          <button type="button" onclick="window.location.href='https://dealers-choice-systems.vercel.app'" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
+          <button type="button" onclick="openCoinbaseCheckout('croupier')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $399/month
           </button>
           
@@ -456,11 +456,11 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ============================================
   // CONFIGURATION - UPDATE THESE TWO LINES!
   // ============================================
-  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SwIvK2NQnc1UWJnZLBHB6vxpsVoPrZUKGZJbEXZnJwyXGiDDAL04QVBHsD273HmtdbPsrCKEkrX3tQSdsU4gKNw00GOyVfLvf'; // ← ADD YOUR STRIPE PUBLISHABLE KEY!
+  const STRIPE_PUBLISHABLE_KEY = 'pk_test_51SwIvK2NQnc1UWJnZLBHB6vxpsVoPrZUKGZJbEXZnJwyXGiDDAL04QVBHsD273HmtdbPsrCKEkrX3tQSdsU4gKNw00GOyVfLvf';
   const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev'; // ← CHANGE THIS!
 
   // Coinbase Commerce checkout URLs
@@ -845,12 +845,4 @@
 
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(page => {
-      page.classList.remove('active');
-    });
-    document.getElementById(pageId).classList.add('active');
-    window.scrollTo(0, 0);
-  }
-</script>
-
-</body>
-</html>
+      page
