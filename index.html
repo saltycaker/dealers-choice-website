@@ -162,7 +162,7 @@
       <div class="flex gap-8 mono text-xs">
         <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We respect your privacy. Contact bernardliatme@outlook.com for details.')" class="hover:text-indigo-400 transition-colors">Privacy</a>
         <a href="#" onclick="event.preventDefault(); alert('Terms of Service: By using our services, you agree to our terms. Contact bernardliatme@outlook.com for full terms.')" class="hover:text-indigo-400 transition-colors">Terms</a>
-        <a href="mailto:bernardliatme@outlook.com" class="hover:text-indigo-400 transition-colors">Contact</a>
+        <a href="/cdn-cgi/l/email-protection#791b1c0b17180b1d1510180d141c39160c0d15161612571a1614" class="hover:text-indigo-400 transition-colors">Contact</a>
       </div>
     </div>
   </footer>
@@ -177,12 +177,127 @@
 
   <section class="py-32 px-10">
     <div class="max-w-5xl mx-auto">
-      <h1 class="text-7xl font-black tracking-tighter mb-6">THE STACK</h1>
-      <p class="text-2xl text-zinc-400 mb-12">Automated candidate outreach at scale</p>
+      <div class="flex items-center gap-4 mb-6">
+        <h1 class="text-7xl font-black tracking-tighter">THE STACK</h1>
+        <span class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 px-4 py-1 rounded-full text-sm font-bold">BETA</span>
+      </div>
+      <p class="text-2xl text-zinc-400 mb-4">Automated candidate outreach at scale</p>
+      <p class="text-sm text-yellow-400 mb-12">Currently in beta testing - Features may be updated based on user feedback</p>
 
       <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-12 mb-12">
         <h3 class="text-3xl font-bold mb-6">What it does</h3>
         <p class="text-zinc-300 text-lg leading-relaxed">The Stack automates your entire outreach process. Instead of spending hours writing and sending individual emails, Stack generates personalized messages and sends them to qualified candidates automatically.</p>
+      </div>
+
+      <!-- DEMO SECTION -->
+      <div class="mb-16">
+        <div class="text-center mb-12">
+          <h3 class="text-4xl font-black mb-4">Campaign Generator Demo</h3>
+          <p class="text-zinc-400 text-lg">See how automated outreach works</p>
+        </div>
+
+        <!-- PROCESS FLOW -->
+        <div class="grid md:grid-cols-5 gap-4 mb-12">
+          <!-- Step 1 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">1</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Configure</h4>
+            <p class="text-sm text-zinc-400">Set campaign parameters</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="text-indigo-500 text-2xl">→</div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">2</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Generate</h4>
+            <p class="text-sm text-zinc-400">AI creates personalized emails</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="text-indigo-500 text-2xl">→</div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">3</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Send</h4>
+            <p class="text-sm text-zinc-400">Automated delivery at scale</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="text-indigo-500 text-2xl">→</div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">4</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Track</h4>
+            <p class="text-sm text-zinc-400">Monitor responses</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- INPUT FORM -->
+          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
+            <h4 class="text-xl font-bold mb-4">Campaign Settings</h4>
+            
+            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 mb-6">
+              <p class="text-xs text-indigo-300 text-center font-bold">INTERACTIVE DEMO - Limited sample database</p>
+            </div>
+            
+            <form id="stackDemoForm" class="space-y-4 text-sm">
+              <div>
+                <label class="block text-zinc-400 mb-2">Campaign Name</label>
+                <input type="text" id="stackCampaignName" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors" value="Backend Engineer Outreach Q1">
+              </div>
+              
+              <div>
+                <label class="block text-zinc-400 mb-2">Target Recipients</label>
+                <select id="stackRecipients" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
+                  <option value="50">50 candidates</option>
+                  <option value="100" selected>100 candidates</option>
+                  <option value="250">250 candidates</option>
+                  <option value="500">500 candidates</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-zinc-400 mb-2">Email Template</label>
+                <select id="stackTemplate" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
+                  <option value="cold">Cold Outreach</option>
+                  <option value="followup">Follow-up</option>
+                  <option value="warm" selected>Warm Introduction</option>
+                </select>
+              </div>
+            </form>
+
+            <button type="button" onclick="runStackDemo()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-all">
+              Generate Campaign Preview
+            </button>
+          </div>
+
+          <!-- RESULTS -->
+          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
+            <h4 class="text-xl font-bold mb-4">Campaign Preview</h4>
+            
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-2 mb-6">
+              <p class="text-xs text-yellow-300 text-center">Sample data - Full product sends real emails</p>
+            </div>
+
+            <div id="stackResultsContainer" class="space-y-3">
+              <div class="text-center text-zinc-500 py-8">
+                <p class="text-lg mb-2">Configure your campaign</p>
+                <p class="text-sm">Then click "Generate Campaign Preview"</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8 mb-12">
@@ -205,21 +320,18 @@
       <div class="bg-black/50 border-2 border-indigo-500 rounded-2xl p-10">
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
-          <!-- STRIPE CARD PAYMENT -->
           <button type="button" onclick="openStripeCheckout('stack')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $199/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
-          <!-- CRYPTO PAYMENT -->
           <button type="button" onclick="openCoinbaseCheckout('stack')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $199/month
           </button>
           
           <div class="border-t border-zinc-700 my-6"></div>
           
-          <!-- TOKEN INPUT -->
           <div class="text-center text-zinc-400 text-sm mb-3">Already have an access token?</div>
           <div class="flex gap-3">
             <input type="text" id="stackToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
@@ -249,7 +361,7 @@
         <p class="text-zinc-300 text-lg leading-relaxed">The Croupier searches and ranks LinkedIn profiles in minutes instead of weeks. Define your ideal candidate specifications and let AI find and score the best matches.</p>
       </div>
 
-      <!-- DEMO SECTION: HOW IT WORKS -->
+      <!-- DEMO SECTION -->
       <div class="mb-16">
         <div class="text-center mb-12">
           <h3 class="text-4xl font-black mb-4">See It In Action</h3>
@@ -302,20 +414,16 @@
           </div>
         </div>
 
-        <!-- INTERACTIVE DEMO -->
         <div class="grid md:grid-cols-2 gap-8">
-          <!-- INPUT FORM - MATCHES N8N -->
+          <!-- INPUT FORM -->
           <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4 flex items-center gap-3">
-              <span class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-sm">1</span>
-              Your Requirements
-            </h4>
+            <h4 class="text-xl font-bold mb-4">Your Requirements</h4>
             
             <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-indigo-300 text-center font-bold">🎮 INTERACTIVE DEMO - Limited sample database</p>
+              <p class="text-xs text-indigo-300 text-center font-bold">INTERACTIVE DEMO - Limited sample database</p>
             </div>
             
-            <form id="demoForm" class="space-y-4 text-sm" onsubmit="event.preventDefault(); runDemo();">
+            <form id="demoForm" class="space-y-4 text-sm">
               <div>
                 <label class="block text-zinc-400 mb-2">Job Title</label>
                 <input type="text" id="demoJobTitle" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="e.g. Software Engineer" value="Software Engineer">
@@ -343,43 +451,23 @@
             </form>
 
             <button type="button" onclick="runDemo()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-all">
-              🔍 Search Candidates
+              Search Candidates
             </button>
           </div>
 
-          <!-- RESULTS PREVIEW - DYNAMICALLY UPDATED -->
-          <div id="demoResults" class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4 flex items-center gap-3">
-              <span class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-sm">4</span>
-              Demo Results
-            </h4>
+          <!-- RESULTS -->
+          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
+            <h4 class="text-xl font-bold mb-4">Demo Results</h4>
             
             <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-yellow-300 text-center">📊 Sample database - Full product searches 100k+ real profiles</p>
+              <p class="text-xs text-yellow-300 text-center">Sample database - Full product searches 100k+ real profiles</p>
             </div>
 
             <div id="resultsContainer" class="space-y-3">
               <div class="text-center text-zinc-500 py-8">
-                <p class="text-lg mb-2">👈 Fill in your requirements</p>
+                <p class="text-lg mb-2">Fill in your requirements</p>
                 <p class="text-sm">Then click "Search Candidates" to see results</p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TIME COMPARISON -->
-        <div class="mt-8 bg-gradient-to-r from-indigo-900/20 to-purple-900/20 border border-indigo-500/30 rounded-xl p-8">
-          <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div class="text-center">
-              <div class="text-red-400 text-sm font-bold mb-2 uppercase tracking-wider">Traditional Method</div>
-              <div class="text-5xl font-black text-zinc-400 mb-2">2-3 weeks</div>
-              <div class="text-sm text-zinc-500">Manual LinkedIn searches, screening, spreadsheets</div>
-            </div>
-            
-            <div class="text-center border-l border-indigo-500/30 md:pl-8">
-              <div class="text-indigo-400 text-sm font-bold mb-2 uppercase tracking-wider">With The Croupier</div>
-              <div class="text-5xl font-black text-indigo-400 mb-2">2-3 minutes</div>
-              <div class="text-sm text-zinc-400">AI-powered search, scoring, and ranking</div>
             </div>
           </div>
         </div>
@@ -405,21 +493,18 @@
       <div class="bg-black/50 border-2 border-indigo-500 rounded-2xl p-10">
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
-          <!-- STRIPE CARD PAYMENT -->
           <button type="button" onclick="openStripeCheckout('croupier')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $399/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
-          <!-- CRYPTO PAYMENT -->
           <button type="button" onclick="openCoinbaseCheckout('croupier')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $399/month
           </button>
           
           <div class="border-t border-zinc-700 my-6"></div>
           
-          <!-- TOKEN INPUT -->
           <div class="text-center text-zinc-400 text-sm mb-3">Already have an access token?</div>
           <div class="flex gap-3">
             <input type="text" id="croupierToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
@@ -441,12 +526,132 @@
 
   <section class="py-32 px-10">
     <div class="max-w-5xl mx-auto">
-      <h1 class="text-7xl font-black tracking-tighter mb-6">THE HOUSE EDGE</h1>
-      <p class="text-2xl text-zinc-400 mb-12">Competitive intelligence for talent acquisition</p>
+      <div class="flex items-center gap-4 mb-6">
+        <h1 class="text-7xl font-black tracking-tighter">THE HOUSE EDGE</h1>
+        <span class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 px-4 py-1 rounded-full text-sm font-bold">BETA</span>
+      </div>
+      <p class="text-2xl text-zinc-400 mb-4">Competitive intelligence for talent acquisition</p>
+      <p class="text-sm text-yellow-400 mb-12">Currently in beta testing - Features may be updated based on user feedback</p>
 
       <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-12 mb-12">
         <h3 class="text-3xl font-bold mb-6">What it does</h3>
         <p class="text-zinc-300 text-lg leading-relaxed">House Edge monitors competitor job postings, tracks hiring patterns, and provides real-time salary intelligence. Stay ahead of the competition.</p>
+      </div>
+
+      <!-- DEMO SECTION -->
+      <div class="mb-16">
+        <div class="text-center mb-12">
+          <h3 class="text-4xl font-black mb-4">Competitor Intelligence Demo</h3>
+          <p class="text-zinc-400 text-lg">See what your competitors are hiring for</p>
+        </div>
+
+        <!-- PROCESS FLOW -->
+        <div class="grid md:grid-cols-5 gap-4 mb-12">
+          <!-- Step 1 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">1</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Select</h4>
+            <p class="text-sm text-zinc-400">Choose competitor to track</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="text-indigo-500 text-2xl">→</div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">2</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Scan</h4>
+            <p class="text-sm text-zinc-400">Monitor job postings</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="text-indigo-500 text-2xl">→</div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">3</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Analyze</h4>
+            <p class="text-sm text-zinc-400">Extract hiring patterns</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="text-indigo-500 text-2xl">→</div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
+            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">4</div>
+            <h4 class="font-bold mb-2 text-indigo-400">Report</h4>
+            <p class="text-sm text-zinc-400">Intelligence insights</p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- INPUT FORM -->
+          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
+            <h4 class="text-xl font-bold mb-4">Tracking Settings</h4>
+            
+            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 mb-6">
+              <p class="text-xs text-indigo-300 text-center font-bold">INTERACTIVE DEMO - Limited sample data</p>
+            </div>
+            
+            <form id="houseEdgeDemoForm" class="space-y-4 text-sm">
+              <div>
+                <label class="block text-zinc-400 mb-2">Company to Track</label>
+                <select id="houseCompany" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
+                  <option value="stripe">Stripe</option>
+                  <option value="notion">Notion</option>
+                  <option value="figma">Figma</option>
+                  <option value="openai">OpenAI</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-zinc-400 mb-2">Time Period</label>
+                <select id="houseTimePeriod" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
+                  <option value="7">Last 7 days</option>
+                  <option value="30" selected>Last 30 days</option>
+                  <option value="90">Last 90 days</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-zinc-400 mb-2">Department</label>
+                <select id="houseDepartment" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
+                  <option value="all">All Departments</option>
+                  <option value="engineering" selected>Engineering</option>
+                  <option value="product">Product</option>
+                  <option value="sales">Sales & Marketing</option>
+                </select>
+              </div>
+            </form>
+
+            <button type="button" onclick="runHouseEdgeDemo()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-all">
+              Generate Intelligence Report
+            </button>
+          </div>
+
+          <!-- RESULTS -->
+          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
+            <h4 class="text-xl font-bold mb-4">Intelligence Preview</h4>
+            
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-2 mb-6">
+              <p class="text-xs text-yellow-300 text-center">Sample data - Full product tracks live job postings</p>
+            </div>
+
+            <div id="houseEdgeResultsContainer" class="space-y-3">
+              <div class="text-center text-zinc-500 py-8">
+                <p class="text-lg mb-2">Select a competitor</p>
+                <p class="text-sm">Then click "Generate Intelligence Report"</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8 mb-12">
@@ -469,21 +674,18 @@
       <div class="bg-black/50 border-2 border-indigo-500 rounded-2xl p-10">
         <h3 class="text-2xl font-bold mb-6 text-center">Get Access</h3>
         <div class="space-y-4">
-          <!-- STRIPE CARD PAYMENT -->
           <button type="button" onclick="openStripeCheckout('house-edge')" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg">
             Pay with Card - $149/month
           </button>
           
           <div class="text-center text-zinc-500 text-sm">or</div>
           
-          <!-- CRYPTO PAYMENT -->
           <button type="button" onclick="openCoinbaseCheckout('house-edge')" class="w-full bg-indigo-600 text-white px-8 py-5 rounded-xl font-bold text-xl hover:bg-indigo-700 transition-all">
             Pay with Crypto - $149/month
           </button>
           
           <div class="border-t border-zinc-700 my-6"></div>
           
-          <!-- TOKEN INPUT -->
           <div class="text-center text-zinc-400 text-sm mb-3">Already have an access token?</div>
           <div class="flex gap-3">
             <input type="text" id="houseToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
@@ -497,13 +699,12 @@
   </section>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ============================================
   // CONFIGURATION
   // ============================================
   const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev';
 
-  // Coinbase Commerce checkout URLs
   const checkoutUrls = {
     'stack': 'https://commerce.coinbase.com/checkout/6f25a0cc-6b87-4394-9f58-ade2b2fa9376',
     'croupier': 'https://commerce.coinbase.com/checkout/30aac2b6-731e-458f-993b-bd89b32688ee',
@@ -511,7 +712,7 @@
   };
 
   // ============================================
-  // REAL LINKEDIN PROFILE DATABASE
+  // LINKEDIN PROFILES DATABASE
   // ============================================
   const linkedinProfiles = [
     {
@@ -521,7 +722,6 @@
       location: 'San Francisco Bay Area',
       years: 8,
       skills: ['Python', 'React', 'AWS', 'Kubernetes', 'Docker', 'TypeScript'],
-      companySize: 'Large',
       linkedin: 'https://linkedin.com/in/sarah-chen'
     },
     {
@@ -531,7 +731,6 @@
       location: 'San Francisco Bay Area',
       years: 6,
       skills: ['Node.js', 'Python', 'PostgreSQL', 'Redis', 'AWS', 'Go'],
-      companySize: 'Large',
       linkedin: 'https://linkedin.com/in/michael-rodriguez'
     },
     {
@@ -541,7 +740,6 @@
       location: 'San Francisco Bay Area',
       years: 5,
       skills: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'AWS'],
-      companySize: 'Medium',
       linkedin: 'https://linkedin.com/in/emily-thompson'
     },
     {
@@ -551,7 +749,6 @@
       location: 'San Francisco Bay Area',
       years: 10,
       skills: ['Java', 'React', 'AWS', 'Kubernetes', 'GraphQL', 'Python'],
-      companySize: 'Large',
       linkedin: 'https://linkedin.com/in/james-kim'
     },
     {
@@ -561,7 +758,6 @@
       location: 'San Francisco Bay Area',
       years: 7,
       skills: ['React', 'TypeScript', 'WebGL', 'CSS', 'JavaScript'],
-      companySize: 'Medium',
       linkedin: 'https://linkedin.com/in/david-patel'
     },
     {
@@ -571,7 +767,6 @@
       location: 'San Francisco Bay Area',
       years: 5,
       skills: ['Python', 'Spark', 'AWS', 'SQL', 'Kafka', 'Airflow'],
-      companySize: 'Medium',
       linkedin: 'https://linkedin.com/in/jennifer-williams'
     },
     {
@@ -581,7 +776,6 @@
       location: 'San Francisco Bay Area',
       years: 6,
       skills: ['Kubernetes', 'Docker', 'Terraform', 'AWS', 'Python', 'Go'],
-      companySize: 'Medium',
       linkedin: 'https://linkedin.com/in/alex-martinez'
     },
     {
@@ -591,7 +785,6 @@
       location: 'San Francisco Bay Area',
       years: 4,
       skills: ['Python', 'TensorFlow', 'PyTorch', 'AWS', 'Kubernetes'],
-      companySize: 'Medium',
       linkedin: 'https://linkedin.com/in/maria-garcia'
     },
     {
@@ -601,7 +794,6 @@
       location: 'San Francisco Bay Area',
       years: 12,
       skills: ['Ruby', 'React', 'AWS', 'Leadership', 'Agile', 'Python'],
-      companySize: 'Large',
       linkedin: 'https://linkedin.com/in/chris-anderson'
     },
     {
@@ -611,7 +803,6 @@
       location: 'San Francisco Bay Area',
       years: 3,
       skills: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'GraphQL'],
-      companySize: 'Startup',
       linkedin: 'https://linkedin.com/in/jessica-lee'
     },
     {
@@ -621,7 +812,6 @@
       location: 'New York',
       years: 7,
       skills: ['Python', 'Kubernetes', 'Prometheus', 'AWS', 'Go', 'Terraform'],
-      companySize: 'Large',
       linkedin: 'https://linkedin.com/in/daniel-brown'
     },
     {
@@ -631,45 +821,101 @@
       location: 'San Francisco Bay Area',
       years: 5,
       skills: ['Swift', 'iOS', 'Objective-C', 'React Native', 'Firebase'],
-      companySize: 'Medium',
       linkedin: 'https://linkedin.com/in/amanda-white'
     }
   ];
 
   // ============================================
-  // INTERACTIVE DEMO FUNCTION
+  // THE STACK DEMO
+  // ============================================
+  function runStackDemo() {
+    const campaignName = document.getElementById('stackCampaignName').value;
+    const recipients = document.getElementById('stackRecipients').value;
+    const template = document.getElementById('stackTemplate').value;
+    
+    const container = document.getElementById('stackResultsContainer');
+    container.innerHTML = `
+      <div class="text-center text-indigo-400 py-8">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+        <p class="text-sm">Generating campaign...</p>
+      </div>
+    `;
+    
+    setTimeout(() => {
+      const templateNames = {
+        'cold': 'Cold Outreach Template',
+        'followup': 'Follow-up Template',
+        'warm': 'Warm Introduction Template'
+      };
+      
+      container.innerHTML = `
+        <div class="space-y-4">
+          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
+            <div class="text-sm text-zinc-400 mb-2">Campaign Summary</div>
+            <div class="font-bold text-white text-lg">${campaignName}</div>
+            <div class="text-xs text-zinc-500 mt-2">${templateNames[template]}</div>
+          </div>
+          
+          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-sm text-zinc-400">Target Recipients</span>
+              <span class="font-black text-indigo-400 text-2xl">${recipients}</span>
+            </div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-sm text-zinc-400">Est. Response Rate</span>
+              <span class="font-bold text-white">12-18%</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-zinc-400">Est. Time to Send</span>
+              <span class="font-bold text-white">~${Math.ceil(recipients/100)} hours</span>
+            </div>
+          </div>
+          
+          <div class="bg-zinc-800/50 border border-purple-500/30 rounded-lg p-4">
+            <div class="text-xs text-zinc-400 mb-2">Sample Email Preview</div>
+            <div class="bg-black/30 rounded p-3 text-xs text-zinc-300 font-mono">
+              Subject: Quick question about [Company Name]<br/><br/>
+              Hi [First Name],<br/><br/>
+              I noticed your experience with [Skill]...<br/>
+              <span class="text-zinc-500">[Personalized content continues...]</span>
+            </div>
+          </div>
+          
+          <div class="text-center text-zinc-500 text-sm pt-2">
+            Campaign ready - Full product sends actual emails
+          </div>
+        </div>
+      `;
+    }, 2000);
+  }
+
+  // ============================================
+  // THE CROUPIER DEMO
   // ============================================
   function runDemo() {
-    // Get form values
     const jobTitle = document.getElementById('demoJobTitle').value.toLowerCase();
     const inputSkills = document.getElementById('demoSkills').value.split(',').map(s => s.trim().toLowerCase());
     const experience = document.getElementById('demoExperience').value;
     const location = document.getElementById('demoLocation').value.toLowerCase();
     
-    // Show loading state
     const container = document.getElementById('resultsContainer');
     container.innerHTML = `
       <div class="text-center text-indigo-400 py-8">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
         <p class="text-sm">Searching LinkedIn profiles...</p>
-        <p class="text-xs text-zinc-500 mt-2">Analyzing sample candidates</p>
       </div>
     `;
     
-    // Simulate API delay
     setTimeout(() => {
-      // Match real LinkedIn profiles
       const matches = matchLinkedInProfiles(jobTitle, inputSkills, experience, location);
       displayResults(matches, inputSkills);
     }, 2000);
   }
   
   function matchLinkedInProfiles(jobTitle, inputSkills, experience, location) {
-    // Calculate match scores for each profile
     const scoredProfiles = linkedinProfiles.map(profile => {
       let score = 0;
       
-      // Title match (40 points)
       if (profile.title.toLowerCase().includes(jobTitle) || jobTitle.includes(profile.title.toLowerCase().split(' ')[0])) {
         score += 40;
       } else if (jobTitle.includes('engineer') && profile.title.toLowerCase().includes('engineer')) {
@@ -678,13 +924,11 @@
         score += 25;
       }
       
-      // Skills match (45 points)
       const matchingSkills = profile.skills.filter(skill => 
         inputSkills.some(inputSkill => skill.toLowerCase().includes(inputSkill) || inputSkill.includes(skill.toLowerCase()))
       );
       score += Math.min(45, matchingSkills.length * 11);
       
-      // Experience match (10 points)
       const expRange = experience.split('-').map(e => parseInt(e.replace('+', '')));
       if (experience.includes('+')) {
         if (profile.years >= expRange[0]) score += 10;
@@ -692,22 +936,20 @@
         if (profile.years >= expRange[0] && profile.years <= expRange[1]) score += 10;
       }
       
-      // Location match (5 points)
       if (profile.location.toLowerCase().includes(location) || location.includes(profile.location.toLowerCase())) {
         score += 5;
       }
       
       return {
         ...profile,
-        score: Math.min(98, score), // Cap at 98%
+        score: Math.min(98, score),
         matchingSkills: matchingSkills
       };
     });
     
-    // Sort by score and return top 5
     return scoredProfiles
       .sort((a, b) => b.score - a.score)
-      .filter(p => p.score > 30) // Only show reasonable matches
+      .filter(p => p.score > 30)
       .slice(0, 5);
   }
   
@@ -730,7 +972,6 @@
       const borderColor = candidate.score >= 90 ? 'indigo' : candidate.score >= 80 ? 'purple' : 'blue';
       const bgColor = candidate.score >= 90 ? 'indigo' : candidate.score >= 80 ? 'purple' : 'blue';
       
-      // Show matching skills + some additional skills
       const displaySkills = [...new Set([...candidate.matchingSkills, ...candidate.skills.slice(0, 4)])].slice(0, 4);
       
       html += `
@@ -766,7 +1007,76 @@
   }
 
   // ============================================
-  // STRIPE HOSTED CHECKOUT
+  // THE HOUSE EDGE DEMO
+  // ============================================
+  function runHouseEdgeDemo() {
+    const company = document.getElementById('houseCompany').value;
+    const timePeriod = document.getElementById('houseTimePeriod').value;
+    const department = document.getElementById('houseDepartment').value;
+    
+    const container = document.getElementById('houseEdgeResultsContainer');
+    container.innerHTML = `
+      <div class="text-center text-indigo-400 py-8">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+        <p class="text-sm">Analyzing competitor data...</p>
+      </div>
+    `;
+    
+    setTimeout(() => {
+      const companyData = {
+        'stripe': { name: 'Stripe', openings: 127, avgSalary: '$165k', topRole: 'Backend Engineer' },
+        'notion': { name: 'Notion', openings: 43, avgSalary: '$145k', topRole: 'Full Stack Engineer' },
+        'figma': { name: 'Figma', openings: 38, avgSalary: '$155k', topRole: 'Product Designer' },
+        'openai': { name: 'OpenAI', openings: 89, avgSalary: '$185k', topRole: 'ML Engineer' }
+      };
+      
+      const data = companyData[company];
+      const multiplier = department === 'engineering' ? 1 : department === 'product' ? 0.4 : 0.3;
+      const openings = Math.round(data.openings * multiplier);
+      
+      container.innerHTML = `
+        <div class="space-y-4">
+          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
+            <div class="text-sm text-zinc-400 mb-2">Tracking</div>
+            <div class="font-bold text-white text-lg">${data.name}</div>
+            <div class="text-xs text-zinc-500 mt-1">${department === 'all' ? 'All Departments' : department.charAt(0).toUpperCase() + department.slice(1)}</div>
+          </div>
+          
+          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-sm text-zinc-400">Active Job Postings</span>
+              <span class="font-black text-indigo-400 text-2xl">${openings}</span>
+            </div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-sm text-zinc-400">Avg. Salary Range</span>
+              <span class="font-bold text-white">${data.avgSalary}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-zinc-400">Most Hired Role</span>
+              <span class="font-bold text-white">${data.topRole}</span>
+            </div>
+          </div>
+          
+          <div class="bg-zinc-800/50 border border-purple-500/30 rounded-lg p-4">
+            <div class="text-xs text-zinc-400 mb-3">Top Requirements</div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">5+ years exp</span>
+              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">Python</span>
+              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">React</span>
+              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">AWS</span>
+            </div>
+          </div>
+          
+          <div class="text-center text-zinc-500 text-sm pt-2">
+            Sample data - Full product provides live tracking
+          </div>
+        </div>
+      `;
+    }, 2000);
+  }
+
+  // ============================================
+  // PAYMENT & AUTH FUNCTIONS
   // ============================================
   async function openStripeCheckout(product) {
     try {
@@ -793,9 +1103,6 @@
     }
   }
 
-  // ============================================
-  // COINBASE CRYPTO CHECKOUT
-  // ============================================
   function openCoinbaseCheckout(product) {
     const checkoutUrl = checkoutUrls[product];
     
@@ -818,9 +1125,6 @@
     showPaymentWaitingModal(product);
   }
 
-  // ============================================
-  // TOKEN VALIDATION
-  // ============================================
   async function validateTokenOnPage(product) {
     const tokenInputId = product === 'stack' ? 'stackToken' : product === 'croupier' ? 'croupierToken' : 'houseToken';
     const token = document.getElementById(tokenInputId).value.trim();
@@ -856,9 +1160,6 @@
     }
   }
 
-  // ============================================
-  // LOADING MODAL
-  // ============================================
   function showLoadingModal(message) {
     const modal = document.createElement('div');
     modal.id = 'loading-modal';
@@ -880,9 +1181,6 @@
     if (modal) modal.remove();
   }
 
-  // ============================================
-  // PAYMENT WAITING MODAL
-  // ============================================
   function showPaymentWaitingModal(product) {
     const modal = document.createElement('div');
     modal.id = 'payment-waiting-modal';
@@ -916,9 +1214,6 @@
     if (modal) modal.remove();
   }
 
-  // ============================================
-  // DASHBOARD ACCESS
-  // ============================================
   function showDashboard(product) {
     const dashboardUrls = {
       'stack': 'http://localhost:5678/webhook/stack',
@@ -962,9 +1257,6 @@
     document.body.appendChild(modal);
   }
 
-  // ============================================
-  // PAYMENT SUCCESS HANDLER
-  // ============================================
   window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment');
@@ -1048,4 +1340,3 @@
 
 </body>
 </html>
-
