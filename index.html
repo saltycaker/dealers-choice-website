@@ -1214,48 +1214,51 @@
     if (modal) modal.remove();
   }
 
-  function showDashboard(product) {
-    const dashboardUrls = {
-      'stack': 'http://localhost:5678/webhook/stack',
-      'croupier': 'http://localhost:5678/webhook/recruitment-form',
-      'house-edge': 'http://localhost:5678/webhook/house-edge'
-    };
-    
-    const productNames = {
-      'stack': 'The Stack',
-      'croupier': 'The Croupier',
-      'house-edge': 'The House Edge'
-    };
-    
-    const dashboardDescriptions = {
-      'stack': 'Automate your candidate outreach with AI-powered email generation.',
-      'croupier': 'Search and rank LinkedIn profiles instantly with AI-powered matching.',
-      'house-edge': 'Monitor competitor hiring patterns and salary intelligence.'
-    };
+function showDashboard(product) {
+  // ✅ YOUR DEPLOYED N8N URL FROM RAILWAY
+  const N8N_BASE_URL = 'https://primary-production-e5d2.up.railway.app';
+  
+  const dashboardUrls = {
+    'stack': `${N8N_BASE_URL}/webhook/stack`,
+    'croupier': `${N8N_BASE_URL}/webhook/recruitment-form`,
+    'house-edge': `${N8N_BASE_URL}/webhook/house-edge`
+  };
+  
+  const productNames = {
+    'stack': 'The Stack',
+    'croupier': 'The Croupier',
+    'house-edge': 'The House Edge'
+  };
+  
+  const dashboardDescriptions = {
+    'stack': 'Automate your candidate outreach with AI-powered email generation.',
+    'croupier': 'Search and rank LinkedIn profiles instantly with AI-powered matching.',
+    'house-edge': 'Monitor competitor hiring patterns and salary intelligence.'
+  };
 
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
-    modal.innerHTML = `
-      <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-2xl w-full">
-        <div class="text-center mb-8">
-          <div class="text-6xl mb-4"></div>
-          <h2 class="text-4xl font-black mb-4 text-indigo-400">Access Granted!</h2>
-          <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
-          <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
-        </div>
-
-        <div class="space-y-3">
-          <a href="${dashboardUrls[product]}" target="_blank" class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-5 rounded-xl font-black text-xl text-center hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105">
-            START USING ${productNames[product].toUpperCase()}
-          </a>
-          <button onclick="this.parentElement.parentElement.parentElement.remove()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
-            Close
-          </button>
-        </div>
+  const modal = document.createElement('div');
+  modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
+  modal.innerHTML = `
+    <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-2xl w-full">
+      <div class="text-center mb-8">
+        <div class="text-6xl mb-4">🎉</div>
+        <h2 class="text-4xl font-black mb-4 text-indigo-400">Access Granted!</h2>
+        <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
+        <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
       </div>
-    `;
-    document.body.appendChild(modal);
-  }
+
+      <div class="space-y-3">
+        <a href="${dashboardUrls[product]}" target="_blank" class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-5 rounded-xl font-black text-xl text-center hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105">
+          START USING ${productNames[product].toUpperCase()}
+        </a>
+        <button onclick="this.parentElement.parentElement.parentElement.remove()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
+          Close
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
 
   window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -1340,4 +1343,5 @@
 
 </body>
 </html>
+
 
