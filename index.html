@@ -63,7 +63,7 @@
     <div class="max-w-7xl mx-auto">
       <div class="flex justify-between items-end mb-16">
         <h2 class="text-5xl font-black italic">FEATURED<br/><span class="text-indigo-500">SOFTWARE</span></h2>
-        <span class="mono text-xs text-zinc-500 pb-2">Software</span>
+        <span class="mono text-xs text-zinc-500 pb-2">VIEW ALL / 3</span>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="productGrid">
@@ -149,7 +149,7 @@
     <div class="max-w-7xl mx-auto text-center">
       <h2 class="text-[clamp(2rem,10vw,6rem)] font-black tracking-tighter leading-none mb-8">READY TO RECRUIT<br/>SMARTER?</h2>
       <div class="flex justify-center gap-6 flex-wrap">
-        <button type="button" onclick="window.location.href='mailto:bernardliatme@outlook.com?subject=Demo Request - Dealer\\'s Choice&body=Hi, I\\'d like to book a demo of your recruitment platform.'" class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
+        <button type="button" onclick="window.location.href='mailto:bernardliatme@outlook.com?subject=Demo Request - Dealers Choice&body=Hi, I would like to book a demo of your recruitment platform.'" class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
         <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})" class="border-2 border-white px-10 py-4 font-bold text-xl hover:bg-white hover:text-black transition-all">VIEW PRICING</button>
       </div>
     </div>
@@ -158,14 +158,15 @@
   <!-- FOOTER -->
   <footer class="py-16 px-10 border-t border-white/10">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-      <div class="mono text-xs text-zinc-500">© 2026 Dealer's Choice. All rights reserved.</div>
+      <div class="mono text-xs text-zinc-500">© 2025 Dealer's Choice. All rights reserved.</div>
       <div class="flex gap-8 mono text-xs">
-        <a href="#" onclick="event.preventDefault(); alert('Privacy Policy: We respect your privacy. Contact bernardliatme@outlook.com for details.')" class="hover:text-indigo-400 transition-colors">Privacy</a>
-        <a href="#" onclick="event.preventDefault(); alert('Terms of Service: By using our services, you agree to our terms. Contact bernardliatme@outlook.com for full terms.')" class="hover:text-indigo-400 transition-colors">Terms</a>
-        <a href="/cdn-cgi/l/email-protection#791b1c0b17180b1d1510180d141c39160c0d15161612571a1614" class="hover:text-indigo-400 transition-colors">Contact</a>
+        <a href="javascript:void(0);" onclick="showPage('privacy')" class="hover:text-indigo-400 transition-colors cursor-pointer">Privacy</a>
+        <a href="javascript:void(0);" onclick="showPage('terms')" class="hover:text-indigo-400 transition-colors cursor-pointer">Terms</a>
+        <a href="mailto:bernardliatme@outlook.com?subject=General Inquiry" class="hover:text-indigo-400 transition-colors">Contact</a>
       </div>
     </div>
   </footer>
+
 
 </main>
 
@@ -699,7 +700,86 @@
   </section>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<!-- PRIVACY POLICY PAGE -->
+<div id="privacy" class="page">
+  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
+    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
+  </nav>
+
+  <section class="py-32 px-10">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-5xl font-black mb-8">Privacy Policy</h2>
+      <div class="space-y-6 text-zinc-300 leading-relaxed">
+        <p>At Dealer's Choice, we take your privacy seriously. This policy outlines how we collect, use, and protect your personal information.</p>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Information We Collect</h3>
+        <p>We collect information you provide directly to us, including:</p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>Name and email address when you create an account</li>
+          <li>Payment information when you subscribe to our services</li>
+          <li>Usage data and analytics to improve our platform</li>
+        </ul>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">How We Use Your Information</h3>
+        <p>We use the information we collect to:</p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>Provide, maintain, and improve our services</li>
+          <li>Process your transactions and send related information</li>
+          <li>Send you technical notices and support messages</li>
+          <li>Respond to your comments and questions</li>
+        </ul>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Data Security</h3>
+        <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Contact Us</h3>
+        <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:bernardliatme@outlook.com" class="text-indigo-400 hover:text-indigo-300">bernardliatme@outlook.com</a></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- TERMS OF SERVICE PAGE -->
+<div id="terms" class="page">
+  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
+    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
+  </nav>
+
+  <section class="py-32 px-10">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-5xl font-black mb-8">Terms of Service</h2>
+      <div class="space-y-6 text-zinc-300 leading-relaxed">
+        <p>By using Dealer's Choice services, you agree to these terms. Please read them carefully.</p>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Use of Services</h3>
+        <p>You may use our services only as permitted by law. You agree not to:</p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>Misuse or interfere with our services</li>
+          <li>Access our services using unauthorized means</li>
+          <li>Share your account credentials with others</li>
+          <li>Use our services for any illegal purpose</li>
+        </ul>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Subscriptions and Payments</h3>
+        <p>Our services are offered on a subscription basis. You agree to pay all fees associated with your subscription. Subscriptions automatically renew unless cancelled before the renewal date.</p>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Cancellation</h3>
+        <p>You may cancel your subscription at any time through your account settings or by contacting us. Cancellations take effect at the end of your current billing period.</p>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Changes to Terms</h3>
+        <p>We may modify these terms at any time. We will notify you of any material changes by email or through our services.</p>
+        
+        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Contact Us</h3>
+        <p>If you have any questions about these Terms, please contact us at <a href="mailto:bernardliatme@outlook.com" class="text-indigo-400 hover:text-indigo-300">bernardliatme@outlook.com</a></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ============================================
   // CONFIGURATION
   // ============================================
@@ -1214,51 +1294,48 @@
     if (modal) modal.remove();
   }
 
-function showDashboard(product) {
-  // ✅ YOUR DEPLOYED N8N URL FROM RAILWAY
-  const N8N_BASE_URL = 'https://primary-production-e5d2.up.railway.app';
-  
-  const dashboardUrls = {
-    'stack': `${N8N_BASE_URL}/webhook/stack`,
-    'croupier': `${N8N_BASE_URL}/webhook/recruitment-form`,
-    'house-edge': `${N8N_BASE_URL}/webhook/house-edge`
-  };
-  
-  const productNames = {
-    'stack': 'The Stack',
-    'croupier': 'The Croupier',
-    'house-edge': 'The House Edge'
-  };
-  
-  const dashboardDescriptions = {
-    'stack': 'Automate your candidate outreach with AI-powered email generation.',
-    'croupier': 'Search and rank LinkedIn profiles instantly with AI-powered matching.',
-    'house-edge': 'Monitor competitor hiring patterns and salary intelligence.'
-  };
+  function showDashboard(product) {
+    const dashboardUrls = {
+      'stack': 'http://localhost:5678/webhook/stack',
+      'croupier': 'https://dealers-choice-systems.vercel.app',
+      'house-edge': 'http://localhost:5678/webhook/house-edge'
+    };
+    
+    const productNames = {
+      'stack': 'The Stack',
+      'croupier': 'The Croupier',
+      'house-edge': 'The House Edge'
+    };
+    
+    const dashboardDescriptions = {
+      'stack': 'Automate your candidate outreach with AI-powered email generation.',
+      'croupier': 'Search and rank LinkedIn profiles instantly with AI-powered matching.',
+      'house-edge': 'Monitor competitor hiring patterns and salary intelligence.'
+    };
 
-  const modal = document.createElement('div');
-  modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
-  modal.innerHTML = `
-    <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-2xl w-full">
-      <div class="text-center mb-8">
-        <div class="text-6xl mb-4">🎉</div>
-        <h2 class="text-4xl font-black mb-4 text-indigo-400">Access Granted!</h2>
-        <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
-        <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
-      </div>
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
+    modal.innerHTML = `
+      <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-2xl w-full">
+        <div class="text-center mb-8">
+          <div class="text-6xl mb-4"></div>
+          <h2 class="text-4xl font-black mb-4 text-indigo-400">Access Granted!</h2>
+          <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
+          <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
+        </div>
 
-      <div class="space-y-3">
-        <a href="${dashboardUrls[product]}" target="_blank" class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-5 rounded-xl font-black text-xl text-center hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105">
-          START USING ${productNames[product].toUpperCase()}
-        </a>
-        <button onclick="this.parentElement.parentElement.parentElement.remove()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
-          Close
-        </button>
+        <div class="space-y-3">
+          <a href="${dashboardUrls[product]}" target="_blank" class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-5 rounded-xl font-black text-xl text-center hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105">
+            START USING ${productNames[product].toUpperCase()}
+          </a>
+          <button onclick="this.parentElement.parentElement.parentElement.remove()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
+            Close
+          </button>
+        </div>
       </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
+    `;
+    document.body.appendChild(modal);
+  }
 
   window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -1343,6 +1420,3 @@ function showDashboard(product) {
 
 </body>
 </html>
-
-
-
