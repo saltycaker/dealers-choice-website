@@ -1208,38 +1208,54 @@
   async function validateTokenOnPage(product) {
     const tokenInputId = product === 'stack' ? 'stackToken' : product === 'croupier' ? 'croupierToken' : 'houseToken';
     const token = document.getElementById(tokenInputId).value.trim();
+  
+  if (!token) {
+    alert('Please enter your access token');
+    return;
+  }
+  
+  try {
+    showLoadingModal('Validating token...');
     
-    if (!token) {
-      alert('Please enter your access token');
-      return;
-    }
+    const response = await fetch(`${WORKER_URL}/api/validate-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        token,
+        product  // ✅ FIXED: Now sends product!
+      })
+    });
     
-    try {
-      showLoadingModal('Validating token...');
-      
-      const response = await fetch(`${WORKER_URL}/api/validate-token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token })
-      });
-      
-      const result = await response.json();
-      closeLoadingModal();
-      
-      if (result.valid) {
-        localStorage.setItem('dealersToken', token);
-        localStorage.setItem('dealersProduct', product);
-        showDashboard(product);
+    const result = await response.json();
+    closeLoadingModal();
+    
+    if (result.valid) {
+      // Token is valid AND matches the product
+      localStorage.setItem('dealersToken', token);
+      localStorage.setItem('dealersProduct', product);
+      showDashboard(product);
+    } else {
+      // Token is invalid OR doesn't match the product
+      if (result.token_product) {
+        // Token exists but is for a different product
+        const productNames = {
+          'stack': 'The Stack',
+          'croupier': 'The Croupier',
+          'house-edge': 'The House Edge'
+        };
+        
+        alert(`This token is for ${productNames[result.token_product]}, not ${productNames[product]}. Please use the correct product page.`);
       } else {
+        // Token doesn't exist
         alert('Invalid token. Please check your token or contact bernardliatme@outlook.com');
       }
-    } catch (error) {
-      console.error('Token validation error:', error);
-      closeLoadingModal();
-      alert('Error validating token. Please try again.');
     }
+  } catch (error) {
+    console.error('Token validation error:', error);
+    closeLoadingModal();
+    alert('Error validating token. Please try again.');
   }
-
+}
   function showLoadingModal(message) {
     const modal = document.createElement('div');
     modal.id = 'loading-modal';
@@ -1439,4 +1455,3 @@ function showDashboard(product) {
 
 </body>
 </html>
-
