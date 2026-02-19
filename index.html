@@ -1372,35 +1372,70 @@ function showDashboard(product) {
 
 // Now n8n receives the token and can validate it!
 
-  window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment');
-    const product = urlParams.get('product');
+    const productParam = urlParams.get('product');
+    
+    // ✅ SECURITY FIX 1: Whitelist validation - only allow known products
+    const allowedProducts = ['stack', 'croupier', 'house-edge'];
+    const product = allowedProducts.includes(productParam) ? productParam : null;
     
     if (paymentStatus === 'success' && product) {
+      // ✅ SECURITY FIX 2: Create elements safely without innerHTML
       const modal = document.createElement('div');
       modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
-      modal.innerHTML = `
-        <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-md w-full text-center">
-          <div class="text-6xl mb-4"></div>
-          <h2 class="text-3xl font-black mb-4 text-indigo-400">Payment Successful!</h2>
-          <p class="text-zinc-300 mb-6">Your access token has been generated and sent to your email.</p>
-          <p class="text-zinc-400 mb-6">Check your inbox, then enter it below to get started!</p>
-          <button onclick="this.parentElement.parentElement.remove(); showPage('${product}')" class="w-full bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all">
-            Enter Access Token
-          </button>
-        </div>
-      `;
+      
+      const modalContent = document.createElement('div');
+      modalContent.className = 'bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-md w-full text-center';
+      
+      const emoji = document.createElement('div');
+      emoji.className = 'text-6xl mb-4';
+      emoji.textContent = '🎉';
+      
+      const heading = document.createElement('h2');
+      heading.className = 'text-3xl font-black mb-4 text-indigo-400';
+      heading.textContent = 'Payment Successful!';
+      
+      const para1 = document.createElement('p');
+      para1.className = 'text-zinc-300 mb-6';
+      para1.textContent = 'Your access token has been generated and sent to your email.';
+      
+      const para2 = document.createElement('p');
+      para2.className = 'text-zinc-400 mb-6';
+      para2.textContent = 'Check your inbox, then enter it below to get started!';
+      
+      const button = document.createElement('button');
+      button.className = 'w-full bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all';
+      button.textContent = 'Enter Access Token';
+      
+      // ✅ SECURITY FIX 3: Use addEventListener instead of onclick attribute
+      button.addEventListener('click', () => {
+        modal.remove();
+        showPage(product); // Safe - product is validated from whitelist
+      });
+      
+      // Assemble modal safely
+      modalContent.appendChild(emoji);
+      modalContent.appendChild(heading);
+      modalContent.appendChild(para1);
+      modalContent.appendChild(para2);
+      modalContent.appendChild(button);
+      modal.appendChild(modalContent);
+      
+      // ✅ SECURITY FIX 4: appendChild is now safe because we built the DOM safely
       document.body.appendChild(modal);
+      
+      // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
     
+    // Handle cancelled payments
     if (paymentStatus === 'cancelled') {
       alert('Payment was cancelled. No charges were made.');
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   });
-
   // ============================================
   // UI HELPERS
   // ============================================
@@ -1455,3 +1490,4 @@ function showDashboard(product) {
 
 </body>
 </html>
+
