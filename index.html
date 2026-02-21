@@ -1158,44 +1158,30 @@
   // ============================================
   // PAYMENT & AUTH FUNCTIONS
   // ============================================
-async function openStripeCheckout(product) {
-  try {
-    showLoadingModal('Creating checkout session...');
-    
-    const response = await fetch(`${WORKER_URL}/api/create-checkout`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product })
-    });
-    
-    // Check if the server actually returned a 200 OK
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Worker returned an error status:', response.status, errorText);
-      throw new Error(`Server returned ${response.status}`);
+  async function openStripeCheckout(product) {
+    try {
+      showLoadingModal('Creating checkout session...');
+      
+      const response = await fetch(`${WORKER_URL}/api/create-checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product })
+      });
+      
+      const data = await response.json();
+      closeLoadingModal();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Failed to create checkout session. Please try again.');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      closeLoadingModal();
+      alert('Error creating checkout. Please try again.');
     }
-
-    const data = await response.json();
-    console.log('Worker Response Data:', data); // <--- This will show you what is missing
-    
-    closeLoadingModal();
-    
-    // Check for different possible naming conventions
-    const checkoutUrl = data.url || data.checkout_url || data.sessionUrl;
-
-    if (checkoutUrl) {
-      window.location.href = checkoutUrl;
-    } else {
-      // This is where your error was happening
-      console.error('No URL found in response. Received:', data);
-      alert('The server responded but did not provide a payment link. Check console (F12) for details.');
-    }
-  } catch (error) {
-    console.error('Detailed Checkout error:', error);
-    closeLoadingModal();
-    alert('Network error or server down. See console (F12) for details.');
   }
-}
 
   function openCoinbaseCheckout(product) {
     const checkoutUrl = checkoutUrls[product];
@@ -1504,6 +1490,3 @@ window.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
-
