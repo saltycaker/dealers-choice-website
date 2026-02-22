@@ -1,0 +1,5 @@
+{
+  "name": "Dealer's Choice AI Receptionist",
+  "description": "An intelligent AI assistant for Dealer's Choice Systems, providing navigation help, answering FAQs, and collecting leads.",
+  "requestFramePermissions": ["microphone"]
+}
