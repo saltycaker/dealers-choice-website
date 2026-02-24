@@ -1302,10 +1302,39 @@
     if (modal) modal.remove();
   }
 
-  function showDashboard(product) {
+function showDashboard(product) {
+  const token = localStorage.getItem('dealersToken') || document.getElementById('croupierToken').value.trim();
+  
+  if (!token) {
+    alert('No token found. Please enter your access token.');
+    return;
+  }
+  
+  // Show loading state
+  showLoadingModal('Loading your dashboard...');
+  
+  // Fetch usage info from Cloudflare Worker
+  fetch(`${WORKER_URL}/api/get-usage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token })
+  })
+  .then(res => res.json())
+  .then(data => {
+    closeLoadingModal();
+    
+    if (data.error) {
+      alert('Error loading usage data: ' + data.error);
+      return;
+    }
+    
+    const usage = data.usage;
+    const percentUsed = ((usage.candidates_found / usage.limit) * 100).toFixed(1);
+    const billingDay = data.billing_cycle_start ? parseInt(data.billing_cycle_start.split('-')[2]) : 'N/A';
+    
     const dashboardUrls = {
       'stack': 'http://localhost:5678/webhook/stack',
-      'croupier': 'https://primary-production-e5d2.up.railway.app/webhook/recruitment-form',
+      'croupier': `https://primary-production-e5d2.up.railway.app/webhook/recruitment-form`,
       'house-edge': 'http://localhost:5678/webhook/house-edge'
     };
     
@@ -1320,16 +1349,62 @@
       'croupier': 'Search and rank LinkedIn profiles instantly with AI-powered matching.',
       'house-edge': 'Monitor competitor hiring patterns and salary intelligence.'
     };
+    
+    // Determine progress bar color based on usage
+    let progressColor = 'indigo';
+    let warningMessage = '';
+    
+    if (percentUsed >= 90) {
+      progressColor = 'red';
+      warningMessage = '<div class="bg-red-500/10 border border-red-500/30 rounded-lg p-3 mb-4 text-sm text-red-300">⚠️ You are approaching your monthly limit. Usage resets on day ' + billingDay + '.</div>';
+    } else if (percentUsed >= 75) {
+      progressColor = 'yellow';
+      warningMessage = '<div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 mb-4 text-sm text-yellow-300">⚠️ You have used 75% of your monthly limit.</div>';
+    }
 
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
     modal.innerHTML = `
       <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-2xl w-full">
         <div class="text-center mb-8">
-          <div class="text-6xl mb-4"></div>
+          <div class="text-6xl mb-4">🎉</div>
           <h2 class="text-4xl font-black mb-4 text-indigo-400">Access Granted!</h2>
           <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
           <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
+        </div>
+
+        ${warningMessage}
+
+        <!-- USAGE DISPLAY -->
+        <div class="bg-black/50 border border-indigo-500/30 rounded-lg p-6 mb-6">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-zinc-400">Monthly Usage</span>
+            <span class="text-white font-bold">${usage.candidates_found.toLocaleString()} / ${usage.limit.toLocaleString()} candidates</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="w-full bg-zinc-800 rounded-full h-4 mb-3 overflow-hidden">
+            <div class="bg-${progressColor}-500 h-4 rounded-full transition-all duration-500" style="width: ${percentUsed}%"></div>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-4 text-center pt-3 border-t border-zinc-700">
+            <div>
+              <div class="text-xs text-zinc-500 mb-1">Used</div>
+              <div class="text-lg font-bold text-${progressColor}-400">${percentUsed}%</div>
+            </div>
+            <div>
+              <div class="text-xs text-zinc-500 mb-1">Remaining</div>
+              <div class="text-lg font-bold text-white">${(usage.limit - usage.candidates_found).toLocaleString()}</div>
+            </div>
+            <div>
+              <div class="text-xs text-zinc-500 mb-1">Searches</div>
+              <div class="text-lg font-bold text-zinc-300">${usage.searches_this_month}</div>
+            </div>
+          </div>
+          
+          <div class="text-xs text-zinc-500 mt-4 text-center">
+            Resets on day ${billingDay} of next month
+          </div>
         </div>
 
         <div class="space-y-3">
@@ -1343,36 +1418,13 @@
       </div>
     `;
     document.body.appendChild(modal);
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment');
-    const product = urlParams.get('product');
-    
-    if (paymentStatus === 'success' && product) {
-      const modal = document.createElement('div');
-      modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
-      modal.innerHTML = `
-        <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-md w-full text-center">
-          <div class="text-6xl mb-4"></div>
-          <h2 class="text-3xl font-black mb-4 text-indigo-400">Payment Successful!</h2>
-          <p class="text-zinc-300 mb-6">Your access token has been generated and sent to your email.</p>
-          <p class="text-zinc-400 mb-6">Check your inbox, then enter it below to get started!</p>
-          <button onclick="this.parentElement.parentElement.remove(); showPage('${product}')" class="w-full bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-all">
-            Enter Access Token
-          </button>
-        </div>
-      `;
-      document.body.appendChild(modal);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-    
-    if (paymentStatus === 'cancelled') {
-      alert('Payment was cancelled. No charges were made.');
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
+  })
+  .catch(error => {
+    closeLoadingModal();
+    console.error('Dashboard error:', error);
+    alert('Error loading dashboard. Please try again.');
   });
+};
 
   // ============================================
   // UI HELPERS
@@ -1428,3 +1480,4 @@
 
 </body>
 </html>
+
