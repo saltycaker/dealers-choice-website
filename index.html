@@ -3,1487 +3,1586 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dealer's Choice</title>
+  <title>Dealer's Choice Systems</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="icon" href="Ace.svg" type="image/svg+xml">
-  
+
   <style>
-    body { background-color: #0a0a0a; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; }
-    .grid-pattern {
-      background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-      background-size: 50px 50px;
+    :root {
+      --ink: #0b0416;
+      --paper: #faf5ff;
+      --accent: #a855f7;
+      --accent-dim: rgba(168,85,247,0.15);
+      --accent-border: rgba(168,85,247,0.35);
+      --white-dim: rgba(255,255,255,0.06);
+      --white-border: rgba(255,255,255,0.1);
     }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-    .text-outline { -webkit-text-stroke: 1px rgba(255,255,255,0.2); color: transparent; }
-    section { position: relative; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--ink);
+      color: #f5f3ff;
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .mono { font-family: 'DM Mono', monospace; }
+    .serif { font-family: 'Instrument Serif', serif; }
+
+    /* animated grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    .grid-pattern {
+      background-image:
+        linear-gradient(rgba(168,85,247,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168,85,247,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    section { position: relative; width: 100%; }
     html { scroll-behavior: smooth; }
     .page { display: none; }
     .page.active { display: block; }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--white-border);
+      background: rgba(11,4,22,0.85);
+      backdrop-filter: blur(20px);
     }
-    .animate-fadeIn {
-      animation: fadeIn 0.5s ease-out forwards;
-      opacity: 0;
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      color: #f5f3ff;
+    }
+    .nav-logo span { color: var(--accent); font-style: italic; }
+
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(245,243,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: var(--accent);
+      color: var(--ink);
+      padding: 10px 22px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: #c084fc; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 40px 80px;
+      padding-top: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-size: clamp(4rem, 12vw, 11rem);
+      font-weight: 800;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      color: #f5f3ff;
+    }
+
+    .hero-title .ghost {
+      -webkit-text-stroke: 1px rgba(168,85,247,0.4);
+      color: transparent;
+      font-style: italic;
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+    }
+
+    .hero-sub {
+      max-width: 480px;
+      color: rgba(245,243,255,0.5);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-top: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 60px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--white-border);
+    }
+
+    .hero-stat-val {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(245,243,255,0.35);
+      margin-top: 4px;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--white-border);
+      border-bottom: 1px solid var(--white-border);
+      padding: 14px 0;
+      background: rgba(168,85,247,0.04);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 60px;
+      white-space: nowrap;
+      animation: marquee 25s linear infinite;
+    }
+
+    .marquee-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,243,255,0.3);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .marquee-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* FEATURES SECTION */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--white-border);
+    }
+
+    .feature-cell {
+      background: var(--ink);
+      padding: 56px 48px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .feature-cell:hover { background: rgba(168,85,247,0.03); }
+
+    .feature-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      margin-bottom: 24px;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #f5f3ff;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(245,243,255,0.45);
+    }
+
+    .feature-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 5px 12px;
+    }
+
+    /* PRODUCTS */
+    .product-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--white-border);
+    }
+
+    .product-card {
+      background: var(--ink);
+      padding: 48px 40px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover::after { transform: scaleX(1); }
+    .product-card:hover { background: rgba(168,85,247,0.03); }
+
+    .product-card.featured {
+      background: rgba(168,85,247,0.05);
+      border: 1px solid var(--accent-border);
+    }
+
+    .product-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge-live { color: #6ee77a; border: 1px solid rgba(110,231,122,0.3); }
+    .badge-beta { color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+
+    .product-name {
+      font-size: 26px;
+      font-weight: 800;
+      color: #f5f3ff;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(245,243,255,0.4);
+      margin-bottom: 28px;
+      flex: 1;
+    }
+
+    .product-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .product-price span {
+      font-size: 12px;
+      color: rgba(245,243,255,0.3);
+      letter-spacing: 0;
+    }
+
+    .product-arrow {
+      position: absolute;
+      top: 48px; right: 40px;
+      font-size: 20px;
+      color: rgba(168,85,247,0.3);
+      transition: all 0.3s;
+    }
+
+    .product-card:hover .product-arrow {
+      color: var(--accent);
+      transform: translate(4px, -4px);
+    }
+
+    /* AI MODEL SECTION */
+    .ai-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ai-left {
+      padding: 100px 60px 100px 40px;
+      border-right: 1px solid var(--white-border);
+    }
+
+    .ai-right {
+      padding: 100px 40px 100px 60px;
+      background: rgba(168,85,247,0.02);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #f5f3ff;
+      margin-bottom: 24px;
+    }
+
+    .section-body {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(245,243,255,0.5);
+      max-width: 460px;
+    }
+
+    .spec-list {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--white-border);
+    }
+
+    .spec-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(245,243,255,0.35);
+    }
+
+    .spec-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    /* PROCESS */
+    .process-section {
+      background: var(--paper);
+      color: var(--ink);
+      padding: 120px 40px;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 80px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .step {
+      padding: 48px 36px;
+      border-right: 1px solid rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .step:last-child { border-right: none; }
+
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(11,4,22,0.3);
+      margin-bottom: 20px;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .step-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(11,4,22,0.55);
+    }
+
+    /* CTA */
+    .cta-section {
+      padding: 140px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-title {
+      font-size: clamp(3rem, 10vw, 9rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      color: #f5f3ff;
+      margin-bottom: 60px;
+    }
+
+    .cta-title .italic {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: var(--accent);
+      color: var(--ink);
+      padding: 18px 44px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #c084fc; }
+
+    .btn-outline {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: transparent;
+      color: #f5f3ff;
+      padding: 18px 44px;
+      border: 1px solid var(--white-border);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      padding: 40px;
+      border-top: 1px solid var(--white-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer .mono { font-size: 10px; color: rgba(245,243,255,0.25); letter-spacing: 0.1em; }
+
+    footer a {
+      color: rgba(245,243,255,0.25);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-size: 10px;
+    }
+    footer a:hover { color: var(--accent); }
+
+    /* PRODUCT PAGES */
+    .back-nav {
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--white-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(11,4,22,0.95);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(245,243,255,0.4);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--white-border);
+      margin: 60px 0;
+    }
+
+    .pricing-card {
+      background: var(--ink);
+      padding: 48px 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card.featured {
+      background: rgba(168,85,247,0.05);
+    }
+
+    .pricing-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--ink);
+      background: var(--accent);
+      padding: 4px 16px;
+    }
+
+    .pricing-tier {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(245,243,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .pricing-amount {
+      font-size: 52px;
+      font-weight: 800;
+      color: #f5f3ff;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pricing-amount span {
+      font-size: 18px;
+      color: rgba(245,243,255,0.3);
+      font-weight: 400;
+    }
+
+    .pricing-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: rgba(245,243,255,0.3);
+      margin-bottom: 32px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .pricing-features li {
+      font-size: 13px;
+      color: rgba(245,243,255,0.6);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .pricing-features li::before {
+      content: '✦';
+      color: var(--accent);
+      font-size: 8px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .pricing-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 14px 24px;
+      border: 1px solid var(--white-border);
+      background: transparent;
+      color: #f5f3ff;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .pricing-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .pricing-btn.accent { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+    .pricing-btn.accent:hover { background: #c084fc; }
+
+    /* token input */
+    .token-section {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 60px 0;
+    }
+
+    .token-input {
+      width: 100%;
+      background: rgba(168,85,247,0.04);
+      border: 1px solid var(--accent-border);
+      color: #f5f3ff;
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      padding: 16px 20px;
+      letter-spacing: 0.1em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .token-input:focus { border-color: var(--accent); }
+    .token-input::placeholder { color: rgba(245,243,255,0.2); }
+
+    .token-btn {
+      padding: 16px 32px;
+      background: var(--accent);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .token-btn:hover { background: #c084fc; }
+
+    /* Demo */
+    .demo-input {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--white-border);
+      color: #f5f3ff;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .demo-input:focus { border-color: var(--accent); }
+    .demo-input::placeholder { color: rgba(245,243,255,0.2); }
+
+    .demo-select {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--white-border);
+      color: #f5f3ff;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      padding: 12px 16px;
+      outline: none;
+    }
+
+    .run-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+      margin-top: 16px;
+    }
+    .run-btn:hover { background: #c084fc; }
+
+    .result-card {
+      background: rgba(168,85,247,0.04);
+      border: 1px solid var(--accent-border);
+      padding: 16px 20px;
+      margin-bottom: 10px;
+    }
+
+    .score-pill {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+    }
+
+    .score-high { background: rgba(110,231,122,0.15); color: #6ee77a; }
+    .score-mid  { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+    .score-low  { background: rgba(248,113,113,0.15); color: #f87171; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.5s ease-out forwards; }
+
+    @media (max-width: 768px) {
+      .features-grid, .ai-section, .product-row { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .step-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { gap: 30px; flex-wrap: wrap; }
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 0 20px 60px; }
     }
   </style>
 </head>
 <body>
 
-<!-- BACKGROUND ELEMENTS -->
-<div id="blob" class="fixed h-[500px] aspect-square rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 opacity-20 blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2 z-0"></div>
-<div class="fixed inset-0 grid-pattern pointer-events-none z-0"></div>
+<!-- ═══════════════════════════════════════════
+  HOME PAGE
+════════════════════════════════════════════ -->
+<main id="home" class="page active">
 
-<!-- HOME PAGE -->
-<main id="home" class="page active relative z-10">
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo" onclick="showPage('home')">Dealer's <span>choicE</span></div>
+    <div class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#technology">Technology</a>
+      <a href="#process">Process</a>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Start Recruiting</button>
+  </nav>
 
-  <!-- SECTION 1: HERO -->
-  <section class="min-h-screen flex flex-col justify-center px-10">
-    <nav class="absolute top-0 left-0 w-full p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em]">
-      <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">Dealer's <span class="text-indigo-500">choicE</span></div>
-      <div class="hidden md:flex gap-10">
-        <a href="#work" class="hover:text-indigo-400 transition-colors">Work</a>
-        <a href="#process" class="hover:text-indigo-400 transition-colors">Process</a>
-        <a href="#tech" class="hover:text-indigo-400 transition-colors">Stack</a>
-      </div>
-      <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})" class="bg-white text-black px-6 py-2 font-bold hover:bg-indigo-500 hover:text-white transition-all">START RECRUITING</button>
-    </nav>
+  <!-- HERO -->
+  <section class="hero grid-pattern" id="hero">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 60% 70% at 70% 40%, rgba(168,85,247,0.06) 0%, transparent 70%);pointer-events:none;"></div>
 
-    <div class="max-w-6xl">
-      <h1 class="text-[clamp(3rem,15vw,12rem)] font-black leading-[0.8] tracking-tighter uppercase">
-        Automated <br /> 
-        <span class="text-outline hover:text-white transition-all duration-700">Recruitment.</span>
+    <div style="position:relative;z-index:10;">
+      <p class="hero-eyebrow">AI-Powered Recruitment Automation</p>
+      <h1 class="hero-title">
+        HIRE<br>
+        <span class="ghost">smarter.</span><br>
+        FASTER.
       </h1>
-      <div class="mt-10 flex flex-col md:flex-row gap-10 items-start">
-        <p class="max-w-md text-zinc-400 text-lg">Making smart hiring decisions simple, fast, and automatic by handling sourcing, outreach, and follow-ups in one system.</p>
-        <div class="mono text-xs flex flex-col gap-2 border-l border-indigo-500 pl-6">
-          <span class="text-zinc-500">STATUS: AVAILABLE</span>
-          <span class="text-zinc-500">LOC: 37.7749° N, 122.4194° W</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION 2: BENTO WORK GRID -->
-  <section id="work" class="py-32 px-10">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex justify-between items-end mb-16">
-        <h2 class="text-5xl font-black italic">FEATURED<br/><span class="text-indigo-500">SOFTWARE</span></h2>
-        <span class="mono text-xs text-zinc-500 pb-2">VIEW ALL / 3</span>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="productGrid">
-        <div class="relative group overflow-hidden bg-zinc-900/40 border border-white/10 rounded-2xl p-8 hover:border-indigo-500/50 transition-colors cursor-pointer" onclick="showPage('stack')">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none product-spotlight"></div>
-          <div class="h-full flex flex-col justify-between relative z-10">
-            <div>
-              <h3 class="text-2xl font-bold">The Stack</h3>
-              <p class="mono text-[10px] text-indigo-400 mt-1 uppercase">
-                The Stack is a software developed to automate the outreaching process instead of spending valuable time writing and sending emails Stack will send any amount of emails to the chosen qualifiable profiles.
-              </p>
-            </div>
-            <div class="mt-20 h-32 w-full bg-gradient-to-br from-white/5 to-transparent rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"></div>
+      <div style="display:flex; gap:60px; align-items:flex-start; flex-wrap:wrap;">
+        <p class="hero-sub">
+          Dealers Choice Systems builds private AI infrastructure for talent teams. Source candidates, automate outreach, and track competitors — without sharing your data with anyone.
+        </p>
+
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-val">45s</div>
+            <div class="hero-stat-label">Avg. Search Time</div>
           </div>
-        </div>
-
-        <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-zinc-900/40 border border-white/10 rounded-2xl p-8 hover:border-indigo-500/50 transition-colors cursor-pointer" onclick="showPage('croupier')">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none product-spotlight"></div>
-          <div class="h-full flex flex-col justify-between relative z-10">
-            <div>
-              <h3 class="text-2xl font-bold">The Croupier</h3>
-              <p class="mono text-[10px] text-indigo-400 mt-1 uppercase">
-                The Croupier is a software developed to automate the recruitment process instead of spending weeks searching Croupier will pull up any amount of qualifiable profiles meeting your specifications in a few minutes.
-              </p>
-            </div>
-            <div class="mt-20 h-32 w-full bg-gradient-to-br from-white/5 to-transparent rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"></div>
+          <div>
+            <div class="hero-stat-val">100k+</div>
+            <div class="hero-stat-label">Profiles Indexed</div>
           </div>
-        </div>
-
-        <div class="relative group overflow-hidden bg-zinc-900/40 border border-white/10 rounded-2xl p-8 hover:border-indigo-500/50 transition-colors cursor-pointer" onclick="showPage('house-edge')">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none product-spotlight"></div>
-          <div class="h-full flex flex-col justify-between relative z-10">
-            <div>
-              <h3 class="text-2xl font-bold">The House Edge</h3>
-              <p class="mono text-[10px] text-indigo-400 mt-1 uppercase">
-                The House Edge is a software developed to Monitors competitor job postings Tracks who they're hiring and more information instead of spending weeks searching House Edge will pull up your competitor's stats.
-              </p>
-            </div>
-            <div class="mt-20 h-32 w-full bg-gradient-to-br from-white/5 to-transparent rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500"></div>
+          <div>
+            <div class="hero-stat-val">3-Day</div>
+            <div class="hero-stat-label">Free Trial</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3: THE PROCESS -->
-  <section id="process" class="py-32 bg-white text-black">
-    <div class="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-20">
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="marquee-dot"></span>Private AI Model</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>LinkedIn Sourcing</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Automated Outreach</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Competitor Intelligence</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>AI Candidate Ranking</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Zero Data Sharing</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>3-Day Free Trial</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Private AI Model</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>LinkedIn Sourcing</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Automated Outreach</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Competitor Intelligence</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>AI Candidate Ranking</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Zero Data Sharing</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>3-Day Free Trial</span>
+    </div>
+  </div>
+
+  <!-- AI MODEL SECTION -->
+  <section id="technology" style="border-bottom:1px solid var(--white-border);">
+    <div class="ai-section">
+      <div class="ai-left">
+        <p class="section-label">The Engine</p>
+        <h2 class="section-title">Your Own<br>Private AI.</h2>
+        <p class="section-body">
+          Unlike generic tools that send your hiring data to third-party models, Dealers Choice runs a dedicated AI instance — isolated per account, trained on recruitment intelligence, and visible to no one but you.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+          Candidate scores, search parameters, job descriptions, and results never leave our secure pipeline. Your sourcing strategy stays yours.
+        </p>
+
+        <div class="spec-list">
+          <div class="spec-row">
+            <span class="spec-key">Model Architecture</span>
+            <span class="spec-val">AI model — Private Instance</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Data Retention</span>
+            <span class="spec-val">Zero Third-Party Sharing</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Ranking Method</span>
+            <span class="spec-val">AI Fit Score 0–100</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Profile Analysis</span>
+            <span class="spec-val">Skills · Experience · Intent</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Search Depth</span>
+            <span class="spec-val">LinkedIn Network + Search Layer</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-key">Latency</span>
+            <span class="spec-val">&lt; 60s Per Search</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-right">
+        <p class="section-label">Why It Matters</p>
+        <h2 class="section-title" style="font-size:2rem;">No More<br>Black Boxes.</h2>
+        <p class="section-body">
+          Every AI score comes with a written explanation. Hire, Maybe, Pass — plus the reasoning behind it. Your team sees exactly why a candidate ranked where they did.
+        </p>
+
+        <div style="margin-top:48px; display:flex; flex-direction:column; gap:20px;">
+          <div style="padding:24px; border:1px solid var(--accent-border); background:rgba(168,85,247,0.04);">
+            <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:10px;">EXAMPLE OUTPUT</div>
+            <div style="font-size:13px; color:rgba(245,243,255,0.7); line-height:1.6;">
+              <strong style="color:#f5f3ff;">Score: 87/100 · Hire</strong><br>
+              Strong Python background (6y), AWS certified, led team of 8 engineers. Slightly over-qualified for IC role — could negotiate seniority.
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--white-border);">
+            <div style="background:var(--ink); padding:20px;">
+              <div style="font-size:28px; font-weight:800; color:var(--accent); letter-spacing:-0.03em;">92%</div>
+              <div class="mono" style="font-size:9px; color:rgba(245,243,255,0.3); margin-top:4px; letter-spacing:0.1em;">MATCH ACCURACY</div>
+            </div>
+            <div style="background:var(--ink); padding:20px;">
+              <div style="font-size:28px; font-weight:800; color:var(--accent); letter-spacing:-0.03em;">3x</div>
+              <div class="mono" style="font-size:9px; color:rgba(245,243,255,0.3); margin-top:4px; letter-spacing:0.1em;">FASTER THAN MANUAL</div>
+            </div>
+            <div style="background:var(--ink); padding:20px; border-top:1px solid var(--white-border);">
+              <div style="font-size:28px; font-weight:800; color:var(--accent); letter-spacing:-0.03em;">0</div>
+              <div class="mono" style="font-size:9px; color:rgba(245,243,255,0.3); margin-top:4px; letter-spacing:0.1em;">DATA LEAKS</div>
+            </div>
+            <div style="background:var(--ink); padding:20px; border-top:1px solid var(--white-border);">
+              <div style="font-size:28px; font-weight:800; color:var(--accent); letter-spacing:-0.03em;">∞</div>
+              <div class="mono" style="font-size:9px; color:rgba(245,243,255,0.3); margin-top:4px; letter-spacing:0.1em;">SEARCHES AVAILABLE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES GRID -->
+  <section style="border-bottom:1px solid var(--white-border);">
+    <div style="padding:80px 40px 40px;">
+      <p class="section-label">Platform Capabilities</p>
+      <h2 class="section-title">Built for<br>Talent Teams.</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-cell">
+        <div class="feature-num">01</div>
+        <div class="feature-title">AI Candidate Ranking</div>
+        <div class="feature-desc">Every profile gets a 0–100 fit score with written reasoning. Hire, Maybe, Pass — decided by AI trained on recruitment outcomes, not generic text similarity. Scores update as your requirements evolve.</div>
+        <div class="feature-tag">Private AI Model</div>
+      </div>
+
+      <div class="feature-cell">
+        <div class="feature-num">02</div>
+        <div class="feature-title">LinkedIn Search at Scale</div>
+        <div class="feature-desc">Search across 100,000+ LinkedIn profiles by title, skills, location, industry, and years of experience. Results delivered in under 60 seconds. No LinkedIn Recruiter seat required — saving you $9,000/year per recruiter.</div>
+        <div class="feature-tag">AI-Powered</div>
+      </div>
+
+      <div class="feature-cell">
+        <div class="feature-num">03</div>
+        <div class="feature-title">Automated Email Outreach</div>
+        <div class="feature-desc">The Stack generates personalized outreach emails and sends them at scale. Campaign parameters, tone, and targeting — configured once, delivered automatically. Full response tracking included.</div>
+        <div class="feature-tag">Coming Q2 2026</div>
+      </div>
+
+      <div class="feature-cell">
+        <div class="feature-num">04</div>
+        <div class="feature-title">Competitor Intelligence</div>
+        <div class="feature-desc">The House Edge monitors competitor job postings in real time — tracking who they're hiring, what skills they're prioritizing, and what they're paying. Stay ahead of the market without guessing.</div>
+        <div class="feature-tag">Coming Q2 2026</div>
+      </div>
+
+      <div class="feature-cell">
+        <div class="feature-num">05</div>
+        <div class="feature-title">Search History & Bookmarks</div>
+        <div class="feature-desc">Every search is saved. Revisit past candidate pools, compare results across roles, and bookmark top candidates for later. Full export to CSV on Growth and Enterprise plans.</div>
+        <div class="feature-tag">Included</div>
+      </div>
+
+      <div class="feature-cell">
+        <div class="feature-num">06</div>
+        <div class="feature-title">Form AI Suggestions</div>
+        <div class="feature-desc">As you type your job requirements, the platform's AI suggests improvements in real time — standardizing job titles, expanding skill abbreviations, and correcting location formats so searches return better results.</div>
+        <div class="feature-tag">Live Product</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products" style="border-bottom:1px solid var(--white-border);">
+    <div style="padding:80px 40px 40px; display:flex; justify-content:space-between; align-items:flex-end;">
       <div>
-        <h2 class="text-6xl font-black tracking-tighter leading-none">HOW WE <br/> BUILD <span class="text-zinc-400 italic">DIFFERENTLY</span>.</h2>
-        <p class="mt-8 text-xl text-zinc-600">Standard methods take too long which could result in missing deadlines wasted funds.</p>
+        <p class="section-label">The Suite</p>
+        <h2 class="section-title">Three Products.<br>One System.</h2>
       </div>
-      <div class="flex flex-col gap-12">
-        <div class="border-b border-black/10 pb-6 group cursor-default">
-          <span class="mono text-xs text-indigo-600">Strategy</span>
-          <div class="flex justify-between items-center mt-2">
-            <h4 class="text-3xl font-bold group-hover:translate-x-4 transition-transform">Our Software First Seeks your ideal qualifications in a candidate so experience skill former Jobs etc Than our software searches and ranks profiles which then reaches your system</h4>
-            <div class="h-2 w-2 bg-black rounded-full scale-0 group-hover:scale-150 transition-transform"></div>
+      <div class="mono" style="font-size:10px; color:rgba(245,243,255,0.25); letter-spacing:0.1em;">VIEW ALL / 3</div>
+    </div>
+
+    <div class="product-row">
+      <!-- THE CROUPIER -->
+      <div class="product-card featured" onclick="showPage('croupier')">
+        <div class="product-arrow">↗</div>
+        <div>
+          <div class="product-badge badge-live">● Live Now</div>
+          <div class="product-name">The Croupier</div>
+          <div class="product-desc">
+            AI-powered LinkedIn candidate discovery and ranking. Define your requirements — skills, experience, location — and get a ranked shortlist in under 60 seconds. Powered by a private AI model that scores and explains every candidate.
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+            <span class="feature-tag" style="margin-top:0;">Private AI</span>
+            <span class="feature-tag" style="margin-top:0;">LinkedIn Search</span>
+            <span class="feature-tag" style="margin-top:0;">AI Scoring</span>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 4: TECH STACK -->
-  <section id="tech" class="py-32 px-10 overflow-hidden">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-20">
-        <p class="mono text-indigo-500 mb-4 tracking-widest text-xs uppercase">The Armory</p>
-        <h2 class="text-6xl font-black">CUTTING EDGE TOOLS.</h2>
+        <div class="product-price">From $149<span>/mo</span></div>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-4">
-        <div class="px-10 py-16 bg-zinc-900/50 border border-white/5 rounded-xl flex-1 min-w-[200px] text-center group hover:bg-indigo-600 hover:scale-105 transition-all duration-300">
-          <span class="mono font-bold text-xl group-hover:text-white transition-colors">The Croupier</span>
+      <!-- THE STACK -->
+      <div class="product-card" onclick="showPage('stack')">
+        <div class="product-arrow">↗</div>
+        <div>
+          <div class="product-badge badge-beta">◐ Beta Q2 2026</div>
+          <div class="product-name">The Stack</div>
+          <div class="product-desc">
+            Automated outreach at scale. AI writes personalized emails for every candidate in your pipeline and sends them automatically. No templates that feel like templates — hyper-personalized messaging that gets responses.
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+            <span class="feature-tag" style="margin-top:0;">AI Outreach</span>
+            <span class="feature-tag" style="margin-top:0;">10k Campaigns</span>
+          </div>
         </div>
+        <div class="product-price">$199<span>/mo</span></div>
+      </div>
+
+      <!-- HOUSE EDGE -->
+      <div class="product-card" onclick="showPage('house-edge')">
+        <div class="product-arrow">↗</div>
+        <div>
+          <div class="product-badge badge-beta">◐ Beta Q2 2026</div>
+          <div class="product-name">The House Edge</div>
+          <div class="product-desc">
+            Competitive hiring intelligence. Monitor who your competitors are hiring, what skills they're targeting, and what salary ranges they're offering. Real-time job posting surveillance across any company.
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+            <span class="feature-tag" style="margin-top:0;">Real-Time Intel</span>
+            <span class="feature-tag" style="margin-top:0;">Salary Data</span>
+          </div>
+        </div>
+        <div class="product-price">$149<span>/mo</span></div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 5: FOOTER / CTA -->
-  <section class="py-32 px-10 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto text-center">
-      <h2 class="text-[clamp(2rem,10vw,6rem)] font-black tracking-tighter leading-none mb-8">READY TO RECRUIT<br/>SMARTER?</h2>
-      <div class="flex justify-center gap-6 flex-wrap">
-        <button type="button" onclick="window.location.href='mailto:bernardliatme@outlook.com?subject=Demo Request - Dealers Choice&body=Hi, I would like to book a demo of your recruitment platform.'" class="bg-white text-black px-10 py-4 font-bold text-xl hover:bg-indigo-500 hover:text-white transition-all">BOOK A DEMO</button>
-        <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})" class="border-2 border-white px-10 py-4 font-bold text-xl hover:bg-white hover:text-black transition-all">VIEW PRICING</button>
+  <!-- PROCESS -->
+  <section id="process" class="process-section">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1400px; margin:0 auto;">
+      <div>
+        <p class="section-label" style="color:rgba(11,4,22,0.4);">How It Works</p>
+        <h2 class="section-title" style="color:var(--ink);">From Requirements<br>to Results.</h2>
+      </div>
+      <div>
+        <p style="font-size:15px; line-height:1.75; color:rgba(11,4,22,0.55); padding-top:50px;">
+          Traditional sourcing takes weeks. Dealers Choice collapses that to minutes — while giving you richer candidate data than any manual search could surface.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-grid" style="max-width:1400px; margin:80px auto 0;">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">Define Requirements</div>
+        <div class="step-body">Enter job title, required skills, experience level, and location. The AI suggests improvements in real time — standardising titles and correcting location formats before your search runs.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">AI Searches LinkedIn</div>
+        <div class="step-body">Our system queries LinkedIn's network through a multi-layer pipeline, pulling full profiles including experience, education, skills, and open-to-work status. Up to 100 candidates per search.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">Private AI Ranks Every Profile</div>
+        <div class="step-body">Each candidate is scored 0–100 by a dedicated AI model with a written explanation. Strengths and concerns are flagged. Hire, Maybe, Pass is assigned. All in your private instance.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 04</div>
+        <div class="step-title">Act on Results</div>
+        <div class="step-body">View ranked candidates with full profiles, bookmark favourites, export to CSV, and revisit past searches anytime. Optionally trigger The Stack to automate outreach to top matches.</div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="py-16 px-10 border-t border-white/10">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-      <div class="mono text-xs text-zinc-500">© 2026 Dealer's Choice. All rights reserved.</div>
-      <div class="flex gap-8 mono text-xs">
-        <a href="javascript:void(0);" onclick="showPage('privacy')" class="hover:text-indigo-400 transition-colors cursor-pointer">Privacy</a>
-        <a href="javascript:void(0);" onclick="showPage('terms')" class="hover:text-indigo-400 transition-colors cursor-pointer">Terms</a>
-        <a href="mailto:bernardliatme@outlook.com?subject=General Inquiry" class="hover:text-indigo-400 transition-colors">Contact</a>
+  <!-- CTA -->
+  <section class="cta-section">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%, rgba(168,85,247,0.07) 0%, transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:10;">
+      <h2 class="cta-title">
+        RECRUIT<br>
+        <span class="italic">smarter</span><br>
+        TODAY.
+      </h2>
+      <div class="cta-buttons">
+        <a class="btn-primary" href="mailto:bernardliatme@outlook.com?subject=Demo Request&body=Hi, I'd like to book a demo of Dealers Choice Systems.">Book a Demo</a>
+        <button class="btn-outline" onclick="showPage('croupier')">View Pricing →</button>
       </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="mono">© 2026 Dealer's Choice Systems. All rights reserved.</div>
+    <div style="display:flex; gap:32px;">
+      <a href="javascript:void(0);" onclick="showPage('privacy')" class="mono">Privacy</a>
+      <a href="javascript:void(0);" onclick="showPage('terms')" class="mono">Terms</a>
+      <a href="mailto:bernardliatme@outlook.com" class="mono">Contact</a>
     </div>
   </footer>
 </main>
 
-<!-- PRODUCT PAGE: THE STACK -->
-<div id="stack" class="page">
-  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
-    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
-  </nav>
-
-  <section class="py-32 px-10">
-    <div class="max-w-5xl mx-auto">
-      <div class="flex items-center gap-4 mb-6">
-        <h1 class="text-7xl font-black tracking-tighter">THE STACK</h1>
-        <span class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 px-4 py-1 rounded-full text-sm font-bold">BETA</span>
-      </div>
-      <p class="text-2xl text-zinc-400 mb-4">Automated candidate outreach at scale</p>
-      <p class="text-sm text-yellow-400 mb-12">Currently in beta testing - Features may be updated based on user feedback</p>
-
-      <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-12 mb-12">
-        <h3 class="text-3xl font-bold mb-6">What it does</h3>
-        <p class="text-zinc-300 text-lg leading-relaxed">The Stack automates your entire outreach process. Instead of spending hours writing and sending individual emails, Stack generates personalized messages and sends them to qualified candidates automatically.</p>
-      </div>
-
-      <!-- DEMO SECTION -->
-      <div class="mb-16">
-        <div class="text-center mb-12">
-          <h3 class="text-4xl font-black mb-4">Campaign Generator Demo</h3>
-          <p class="text-zinc-400 text-lg">See how automated outreach works</p>
-        </div>
-
-        <!-- PROCESS FLOW -->
-        <div class="grid md:grid-cols-5 gap-4 mb-12">
-          <!-- Step 1 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">1</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Configure</h4>
-            <p class="text-sm text-zinc-400">Set campaign parameters</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 2 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">2</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Generate</h4>
-            <p class="text-sm text-zinc-400">AI creates personalized emails</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 3 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">3</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Send</h4>
-            <p class="text-sm text-zinc-400">Automated delivery at scale</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 4 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">4</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Track</h4>
-            <p class="text-sm text-zinc-400">Monitor responses</p>
-          </div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- INPUT FORM -->
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4">Campaign Settings</h4>
-            
-            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-indigo-300 text-center font-bold">INTERACTIVE DEMO - Limited sample database</p>
-            </div>
-            
-            <form id="stackDemoForm" class="space-y-4 text-sm">
-              <div>
-                <label class="block text-zinc-400 mb-2">Campaign Name</label>
-                <input type="text" id="stackCampaignName" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors" value="Backend Engineer Outreach Q1">
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Target Recipients</label>
-                <select id="stackRecipients" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
-                  <option value="50">50 candidates</option>
-                  <option value="100" selected>100 candidates</option>
-                  <option value="250">250 candidates</option>
-                  <option value="500">500 candidates</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Email Template</label>
-                <select id="stackTemplate" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
-                  <option value="cold">Cold Outreach</option>
-                  <option value="followup">Follow-up</option>
-                  <option value="warm" selected>Warm Introduction</option>
-                </select>
-              </div>
-            </form>
-
-            <button type="button" onclick="runStackDemo()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-all">
-              Generate Campaign Preview
-            </button>
-          </div>
-
-          <!-- RESULTS -->
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4">Campaign Preview</h4>
-            
-            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-yellow-300 text-center">Sample data - Full product sends real emails</p>
-            </div>
-
-            <div id="stackResultsContainer" class="space-y-3">
-              <div class="text-center text-zinc-500 py-8">
-                <p class="text-lg mb-2">Configure your campaign</p>
-                <p class="text-sm">Then click "Generate Campaign Preview"</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
-        <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
-          <h4 class="text-xl font-bold mb-4 text-indigo-400">Features</h4>
-          <ul class="space-y-3 text-zinc-300">
-            <li>✓ AI-powered email generation</li>
-            <li>✓ Automatic contact finding</li>
-            <li>✓ Personalized outreach at scale</li>
-            <li>✓ Response tracking</li>
-          </ul>
-        </div>
-        <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
-          <h4 class="text-xl font-bold mb-4 text-indigo-400">Pricing</h4>
-          <div class="text-5xl font-black mb-2">$199<span class="text-2xl text-zinc-500">/mo</span></div>
-          <p class="text-zinc-400">10k campaigns</p>
-        </div>
-      </div>
-
-      <div class="bg-black/50 border-2 border-zinc-700 rounded-2xl p-10">
-        <div class="bg-yellow-500/10 border border-yellow-500/50 rounded-lg px-4 py-3 mb-6">
-          <p class="text-yellow-300 text-center font-bold">⚠️ PRODUCT IN DEVELOPMENT</p>
-          <p class="text-yellow-200/80 text-sm text-center mt-2">The Stack is currently undergoing final testing and optimization. Payment is temporarily disabled until full deployment is complete. Expected availability: Q2 2026</p>
-        </div>
-        
-        <h3 class="text-2xl font-bold mb-6 text-center text-zinc-400">Get Access (Coming Soon)</h3>
-        <div class="space-y-4">
-          <button type="button" disabled class="w-full bg-zinc-800 text-zinc-600 px-8 py-5 rounded-xl font-bold text-xl cursor-not-allowed opacity-50">
-            Pay with Card - $199/month (Unavailable)
-          </button>
-          
-          <div class="text-center text-zinc-500 text-sm">or</div>
-          
-          <button type="button" disabled class="w-full bg-zinc-800 text-zinc-600 px-8 py-5 rounded-xl font-bold text-xl cursor-not-allowed opacity-50">
-            Pay with Crypto - $199/month (Unavailable)
-          </button>
-          
-          <div class="border-t border-zinc-700 my-6"></div>
-          
-          <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-4">
-            <p class="text-center text-zinc-300 text-sm mb-3">Want early access when it launches?</p>
-            <a href="mailto:bernardliatme@outlook.com?subject=Join Waitlist - The Stack" class="block w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold text-center hover:bg-indigo-700 transition-all">
-              Join Waitlist
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- PRODUCT PAGE: THE CROUPIER -->
+<!-- ═══════════════════════════════════════════
+  CROUPIER PAGE
+════════════════════════════════════════════ -->
 <div id="croupier" class="page">
-  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
-    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
-  </nav>
+  <div class="back-nav">
+    <span class="back-link" onclick="showPage('home')">← Dealer's Choice</span>
+    <span class="mono" style="color:rgba(245,243,255,0.2); font-size:10px;">/</span>
+    <span class="mono" style="font-size:10px; color:rgba(245,243,255,0.4); letter-spacing:0.1em;">THE CROUPIER</span>
+  </div>
 
-  <section class="py-32 px-10">
-    <div class="max-w-7xl mx-auto">
-      <h1 class="text-7xl font-black tracking-tighter mb-6">THE CROUPIER</h1>
-      <p class="text-2xl text-zinc-400 mb-12">AI-powered candidate discovery and ranking</p>
+  <div style="padding:80px 40px 40px; max-width:1400px; margin:0 auto;">
+    <div class="product-badge badge-live" style="margin-bottom:16px;">● Live Now</div>
+    <h1 style="font-size:clamp(3rem,9vw,8rem); font-weight:800; letter-spacing:-0.04em; line-height:0.9; margin-bottom:24px;">THE<br>CROUPIER</h1>
+    <p style="font-size:18px; color:rgba(245,243,255,0.5); max-width:560px; line-height:1.6;">
+      AI-powered LinkedIn candidate discovery and ranking. Your private AI model scores every profile — with an explanation you can actually use.
+    </p>
+  </div>
 
-      <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-12 mb-12">
-        <h3 class="text-3xl font-bold mb-6">What it does</h3>
-        <p class="text-zinc-300 text-lg leading-relaxed">The Croupier searches and ranks LinkedIn profiles in minutes instead of weeks. Define your ideal candidate specifications and let AI find and score the best matches.</p>
+  <!-- FEATURE HIGHLIGHTS -->
+  <div style="max-width:1400px; margin:0 auto; padding:0 40px;">
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--white-border); margin-bottom:60px;">
+      <div style="background:var(--ink); padding:32px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:12px;">PRIVATE AI</div>
+        <div style="font-size:15px; font-weight:700; margin-bottom:8px;">Your Data, Your Model</div>
+        <div style="font-size:13px; color:rgba(245,243,255,0.45); line-height:1.6;">A dedicated AI model — isolated per account. Your searches never train anyone else's model. Zero third-party data sharing.</div>
       </div>
+      <div style="background:var(--ink); padding:32px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:12px;">AI SCORING</div>
+        <div style="font-size:15px; font-weight:700; margin-bottom:8px;">Hire / Maybe / Pass</div>
+        <div style="font-size:13px; color:rgba(245,243,255,0.45); line-height:1.6;">Every candidate gets a 0–100 fit score with written reasoning, key strengths, and concerns flagged. No more manual profile review at scale.</div>
+      </div>
+      <div style="background:var(--ink); padding:32px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:12px;">LINKEDIN SEARCH</div>
+        <div style="font-size:15px; font-weight:700; margin-bottom:8px;">No Recruiter Seat Needed</div>
+        <div style="font-size:13px; color:rgba(245,243,255,0.45); line-height:1.6;">Access 100,000+ LinkedIn profiles without a $9,000/year LinkedIn Recruiter seat. Search by role, skills, location, and experience level in under 60s.</div>
+      </div>
+    </div>
+  </div>
 
-      <!-- DEMO SECTION -->
-      <div class="mb-16">
-        <div class="text-center mb-12">
-          <h3 class="text-4xl font-black mb-4">See It In Action</h3>
-          <p class="text-zinc-400 text-lg">From requirements to ranked candidates in minutes</p>
+  <!-- DEMO -->
+  <div style="max-width:1400px; margin:0 auto; padding:0 40px 60px;">
+    <p class="section-label">Interactive Demo</p>
+    <h2 style="font-size:2.5rem; font-weight:800; letter-spacing:-0.03em; margin-bottom:40px;">See It In Action</h2>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--white-border);">
+      <div style="background:var(--ink); padding:40px;">
+        <div class="mono" style="font-size:10px; color:var(--accent); letter-spacing:0.2em; margin-bottom:24px;">YOUR REQUIREMENTS</div>
+
+        <div style="background:rgba(168,85,247,0.06); border:1px solid var(--accent-border); padding:10px 14px; margin-bottom:24px;">
+          <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.15em;">DEMO — Limited sample database</div>
         </div>
 
-        <!-- PROCESS FLOW -->
-        <div class="grid md:grid-cols-5 gap-4 mb-12">
-          <!-- Step 1: Input Requirements -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">1</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Input</h4>
-            <p class="text-sm text-zinc-400">Define your ideal candidate requirements</p>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <label class="mono" style="font-size:9px; color:rgba(245,243,255,0.4); letter-spacing:0.15em; display:block; margin-bottom:6px;">JOB TITLE</label>
+            <input class="demo-input" id="demoJobTitle" value="Software Engineer" placeholder="e.g. Software Engineer">
           </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
+          <div>
+            <label class="mono" style="font-size:9px; color:rgba(245,243,255,0.4); letter-spacing:0.15em; display:block; margin-bottom:6px;">REQUIRED SKILLS</label>
+            <input class="demo-input" id="demoSkills" value="Python, React, AWS" placeholder="e.g. Python, React, AWS">
           </div>
-          <!-- Step 2: AI Processing -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">2</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Process</h4>
-            <p class="text-sm text-zinc-400">AI analyzes and optimizes search parameters</p>
+          <div>
+            <label class="mono" style="font-size:9px; color:rgba(245,243,255,0.4); letter-spacing:0.15em; display:block; margin-bottom:6px;">EXPERIENCE</label>
+            <select class="demo-select" id="demoExperience">
+              <option value="1-3">1–3 years</option>
+              <option value="3-5">3–5 years</option>
+              <option value="5+" selected>5+ years</option>
+              <option value="10+">10+ years</option>
+            </select>
           </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 3: Search & Rank -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">3</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Search</h4>
-            <p class="text-sm text-zinc-400">Scans profiles and scores matches</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 4: Results -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">4</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Results</h4>
-            <p class="text-sm text-zinc-400">Ranked candidates ready to contact</p>
+          <div>
+            <label class="mono" style="font-size:9px; color:rgba(245,243,255,0.4); letter-spacing:0.15em; display:block; margin-bottom:6px;">LOCATION</label>
+            <input class="demo-input" id="demoLocation" value="San Francisco Bay Area" placeholder="e.g. San Francisco">
           </div>
         </div>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- INPUT FORM -->
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4">Your Requirements</h4>
-            
-            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-indigo-300 text-center font-bold">INTERACTIVE DEMO - Limited sample database</p>
-            </div>
-            
-            <form id="demoForm" class="space-y-4 text-sm">
-              <div>
-                <label class="block text-zinc-400 mb-2">Job Title</label>
-                <input type="text" id="demoJobTitle" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="e.g. Software Engineer" value="Software Engineer">
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Required Skills (comma separated)</label>
-                <input type="text" id="demoSkills" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="e.g. Python, React, AWS" value="Python, React, AWS">
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Years of Experience</label>
-                <select id="demoExperience" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
-                  <option value="1-3">1-3 years</option>
-                  <option value="3-5">3-5 years</option>
-                  <option value="5+" selected>5+ years</option>
-                  <option value="10+">10+ years</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Location</label>
-                <input type="text" id="demoLocation" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors" placeholder="e.g. San Francisco" value="San Francisco Bay Area">
-              </div>
-            </form>
-
-            <button type="button" onclick="runDemo()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-all">
-              Search Candidates
-            </button>
-          </div>
-
-          <!-- RESULTS -->
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4">Demo Results</h4>
-            
-            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-yellow-300 text-center">Sample database - Full product searches 100k+ real profiles</p>
-            </div>
-
-            <div id="resultsContainer" class="space-y-3">
-              <div class="text-center text-zinc-500 py-8">
-                <p class="text-lg mb-2">Fill in your requirements</p>
-                <p class="text-sm">Then click "Search Candidates" to see results</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <button class="run-btn" onclick="runDemo()">Search Candidates →</button>
       </div>
 
-      <!-- NEW PRICING TIERS SECTION -->
-      <div class="mb-16">
-          <div class="text-center mb-12">
-              <h3 class="text-5xl font-black mb-4">Choose Your Limit</h3>
-              <p class="text-zinc-400 text-lg">Scale your recruitment efforts as you grow</p>
+      <div style="background:rgba(168,85,247,0.02); padding:40px;">
+        <div class="mono" style="font-size:10px; color:var(--accent); letter-spacing:0.2em; margin-bottom:24px;">AI-RANKED RESULTS</div>
+        <div id="resultsContainer">
+          <div style="text-align:center; padding:60px 0; color:rgba(245,243,255,0.2);">
+            <div class="mono" style="font-size:12px; letter-spacing:0.1em;">Run a search to see candidates</div>
           </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <!-- Tier 1 -->
-              <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:border-indigo-500 transition-all duration-300 group">
-                  <div>
-                      <h4 class="text-xl font-bold text-zinc-300 mb-2">Starter</h4>
-                      <div class="text-5xl font-black mb-1">$149<span class="text-lg text-zinc-500 font-normal">/mo</span></div>
-                      <div class="text-sm text-zinc-500 mb-8">Perfect for small teams</div>
-                      
-                      <ul class="space-y-4 text-sm text-zinc-300 mb-8">
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> 1,000 Candidates / mo</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> AI Matching</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> Standard Support</li>
-                      </ul>
-                  </div>
-                  <button onclick="openStripeCheckout('price_1T5UQDRvu0Wlomst6OcHgx2m')" class="w-full py-4 border border-zinc-700 rounded-xl font-bold text-white hover:bg-white hover:text-black hover:border-white transition-all">Start free Trial</button>
-              </div>
-
-              <!-- Tier 2 -->
-              <div class="bg-zinc-900/40 border-2 border-indigo-500/30 rounded-2xl p-8 flex flex-col justify-between hover:border-indigo-500 transition-all duration-300 group relative overflow-hidden">
-                  <div class="absolute top-0 right-0 bg-indigo-600 text-[10px] font-bold px-3 py-1 rounded-bl-lg">MOST POPULAR</div>
-                  <div>
-                      <h4 class="text-xl font-bold text-white mb-2">Growth</h4>
-                      <div class="text-5xl font-black mb-1">$299<span class="text-lg text-zinc-500 font-normal">/mo</span></div>
-                      <div class="text-sm text-zinc-500 mb-8">For scaling companies</div>
-                      
-                      <ul class="space-y-4 text-sm text-zinc-300 mb-8">
-                          <li class="flex items-center gap-3"><span class="text-indigo-400">✓</span> 5,000 Candidates / mo</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-400">✓</span> Advanced AI Matching</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-400">✓</span> Priority Support</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-400">✓</span> Export to CSV</li>
-                      </ul>
-                  </div>
-                  <button onclick="openStripeCheckout('price_1T5aQfRvu0WlomstC3m4OFns')" class="w-full py-4 bg-indigo-600 rounded-xl font-bold text-white hover:bg-indigo-500 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)]">Start free Trial</button>
-              </div>
-
-              <!-- Tier 3 -->
-              <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:border-indigo-500 transition-all duration-300 group">
-                  <div>
-                      <h4 class="text-xl font-bold text-zinc-300 mb-2">Enterprise</h4>
-                      <div class="text-5xl font-black mb-1">$599<span class="text-lg text-zinc-500 font-normal">/mo</span></div>
-                      <div class="text-sm text-zinc-500 mb-8">Maximum power</div>
-                      
-                      <ul class="space-y-4 text-sm text-zinc-300 mb-8">
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> 15,000 Candidates / mo</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> Premium AI Matching</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> Dedicated Support</li>
-                          <li class="flex items-center gap-3"><span class="text-indigo-500">✓</span> Customized Products</li>
-                      </ul>
-                  </div>
-                  <button onclick="openStripeCheckout('price_1T9UO1Rvu0WlomstDwHIdo8B')" class="w-full py-4 border border-zinc-700 rounded-xl font-bold text-white hover:bg-white hover:text-black hover:border-white transition-all">Start free Trial</button>
-              </div>
-          </div>
-      </div>
-
-      <div class="bg-black/50 border-2 border-zinc-700 rounded-2xl p-10">
-        <h3 class="text-2xl font-bold mb-6 text-center text-zinc-400">Access Dashboard</h3>
-        <div class="space-y-4 max-w-md mx-auto">
-          <div class="flex gap-3">
-            <input type="text" id="croupierToken" placeholder="DEALERS-XXXX-XXXX" class="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-white font-mono">
-            <button type="button" onclick="validateTokenOnPage('croupier')" class="bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
-              Validate
-            </button>
-          </div>
-          <div class="text-center text-zinc-500 text-sm">Enter the access token sent to your email after purchase.</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- PRICING -->
+  <div style="max-width:1400px; margin:0 auto; padding:0 40px 80px;">
+    <p class="section-label">Pricing</p>
+    <h2 style="font-size:2.5rem; font-weight:800; letter-spacing:-0.03em; margin-bottom:40px;">Choose Your Scale</h2>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-amount">$149<span>/mo</span></div>
+        <div class="pricing-sub">Perfect for small teams</div>
+        <ul class="pricing-features">
+          <li>1,000 Candidates / month</li>
+          <li>Private AI Ranking</li>
+          <li>LinkedIn Profile Search</li>
+          <li>Search History</li>
+          <li>Standard Support</li>
+        </ul>
+        <button class="pricing-btn" onclick="openStripeCheckout('price_1T5UQDRvu0Wlomst6OcHgx2m')">Start Free Trial</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-tier">Growth</div>
+        <div class="pricing-amount">$299<span>/mo</span></div>
+        <div class="pricing-sub">For scaling companies</div>
+        <ul class="pricing-features">
+          <li>5,000 Candidates / month</li>
+          <li>Advanced Private AI Ranking</li>
+          <li>LinkedIn Profile Search</li>
+          <li>Search History + Bookmarks</li>
+          <li>CSV Export</li>
+          <li>Priority Support</li>
+        </ul>
+        <button class="pricing-btn accent" onclick="openStripeCheckout('price_1T5aQfRvu0WlomstC3m4OFns')">Start Free Trial</button>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-tier">Enterprise</div>
+        <div class="pricing-amount">$599<span>/mo</span></div>
+        <div class="pricing-sub">Maximum power</div>
+        <ul class="pricing-features">
+          <li>15,000 Candidates / month</li>
+          <li>Premium Private AI Ranking</li>
+          <li>LinkedIn Profile Search</li>
+          <li>Full History + Bookmarks</li>
+          <li>CSV Export + Custom Reports</li>
+          <li>Dedicated Support</li>
+          <li>Customised Product Access</li>
+        </ul>
+        <button class="pricing-btn" onclick="openStripeCheckout('price_1T9UO1Rvu0WlomstDwHIdo8B')">Start Free Trial</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESS TOKEN -->
+  <div style="max-width:1400px; margin:0 auto; padding:0 40px 100px;">
+    <div style="border:1px solid var(--accent-border); padding:60px; text-align:center; background:rgba(168,85,247,0.03);">
+      <p class="section-label" style="text-align:center;">Already a Customer</p>
+      <h3 style="font-size:2rem; font-weight:800; letter-spacing:-0.03em; margin-bottom:8px;">Access Your Dashboard</h3>
+      <p style="font-size:14px; color:rgba(245,243,255,0.4); margin-bottom:40px; font-family:'DM Mono',monospace;">Enter the access token sent to your email after purchase</p>
+      <div style="display:flex; gap:0; max-width:480px; margin:0 auto;">
+        <input type="text" id="croupierToken" placeholder="DEALERS-XXXX-XXXX" class="token-input" style="flex:1;">
+        <button class="token-btn" onclick="validateTokenOnPage('croupier')">Unlock →</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- PRODUCT PAGE: THE HOUSE EDGE -->
+<!-- ═══════════════════════════════════════════
+  STACK PAGE
+════════════════════════════════════════════ -->
+<div id="stack" class="page">
+  <div class="back-nav">
+    <span class="back-link" onclick="showPage('home')">← Dealer's Choice</span>
+    <span class="mono" style="color:rgba(245,243,255,0.2); font-size:10px;">/</span>
+    <span class="mono" style="font-size:10px; color:rgba(245,243,255,0.4); letter-spacing:0.1em;">THE STACK</span>
+  </div>
+
+  <div style="padding:80px 40px; max-width:1400px; margin:0 auto;">
+    <div class="product-badge badge-beta" style="margin-bottom:16px;">◐ Beta — Q2 2026</div>
+    <h1 style="font-size:clamp(3rem,9vw,8rem); font-weight:800; letter-spacing:-0.04em; line-height:0.9; margin-bottom:24px;">THE<br>STACK</h1>
+    <p style="font-size:18px; color:rgba(245,243,255,0.5); max-width:560px; line-height:1.6; margin-bottom:60px;">
+      Automated outreach at scale. AI generates personalized messages for every candidate and delivers them — without your team lifting a finger after setup.
+    </p>
+
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--white-border); margin-bottom:60px;">
+      <div style="background:var(--ink); padding:40px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:16px;">WHAT IT DOES</div>
+        <h3 style="font-size:20px; font-weight:800; margin-bottom:16px;">Personalized at Scale</h3>
+        <p style="font-size:14px; color:rgba(245,243,255,0.45); line-height:1.7;">Every outreach email is written by AI — personalised to the candidate's profile, role, and company. Not mail-merge templates. Actual personalization that reads like a human wrote it.</p>
+      </div>
+      <div style="background:var(--ink); padding:40px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:16px;">CAPACITY</div>
+        <h3 style="font-size:20px; font-weight:800; margin-bottom:16px;">10,000 Campaigns</h3>
+        <p style="font-size:14px; color:rgba(245,243,255,0.45); line-height:1.7;">One seat, 10,000 outreach campaigns per month. Configure your tone, schedule, and follow-up cadence — The Stack handles delivery, tracking, and response monitoring automatically.</p>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(251,191,36,0.3); background:rgba(251,191,36,0.04); padding:40px; text-align:center; margin-bottom:60px;">
+      <div class="mono" style="font-size:9px; color:#fbbf24; letter-spacing:0.2em; margin-bottom:12px;">⚠ PRODUCT IN DEVELOPMENT</div>
+      <p style="font-size:14px; color:rgba(245,243,255,0.5);">The Stack is completing final testing. Expected availability Q2 2026.</p>
+      <a href="mailto:bernardliatme@outlook.com?subject=Join Waitlist - The Stack" style="display:inline-block; margin-top:20px; padding:12px 32px; background:var(--accent); color:var(--ink); font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.15em; text-decoration:none;">Join Waitlist</a>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:32px 0; border-top:1px solid var(--white-border);">
+      <div>
+        <div class="mono" style="font-size:10px; color:rgba(245,243,255,0.3); letter-spacing:0.1em; margin-bottom:4px;">PRICING</div>
+        <div style="font-size:40px; font-weight:800; color:var(--accent); letter-spacing:-0.03em;">$199<span style="font-size:16px; color:rgba(245,243,255,0.3); font-weight:400;">/mo</span></div>
+      </div>
+      <div class="mono" style="font-size:11px; color:rgba(245,243,255,0.35);">10,000 Campaigns Included</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  HOUSE EDGE PAGE
+════════════════════════════════════════════ -->
 <div id="house-edge" class="page">
-  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
-    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
-  </nav>
+  <div class="back-nav">
+    <span class="back-link" onclick="showPage('home')">← Dealer's Choice</span>
+    <span class="mono" style="color:rgba(245,243,255,0.2); font-size:10px;">/</span>
+    <span class="mono" style="font-size:10px; color:rgba(245,243,255,0.4); letter-spacing:0.1em;">THE HOUSE EDGE</span>
+  </div>
 
-  <section class="py-32 px-10">
-    <div class="max-w-5xl mx-auto">
-      <div class="flex items-center gap-4 mb-6">
-        <h1 class="text-7xl font-black tracking-tighter">THE HOUSE EDGE</h1>
-        <span class="bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 px-4 py-1 rounded-full text-sm font-bold">BETA</span>
+  <div style="padding:80px 40px; max-width:1400px; margin:0 auto;">
+    <div class="product-badge badge-beta" style="margin-bottom:16px;">◐ Beta — Q2 2026</div>
+    <h1 style="font-size:clamp(3rem,9vw,7rem); font-weight:800; letter-spacing:-0.04em; line-height:0.9; margin-bottom:24px;">THE HOUSE<br>EDGE</h1>
+    <p style="font-size:18px; color:rgba(245,243,255,0.5); max-width:560px; line-height:1.6; margin-bottom:60px;">
+      Real-time competitive hiring intelligence. Know exactly who your competitors are building their teams with — before the market does.
+    </p>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--white-border); margin-bottom:60px;">
+      <div style="background:var(--ink); padding:32px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:12px;">JOB MONITORING</div>
+        <div style="font-size:16px; font-weight:700; margin-bottom:8px;">Live Job Tracking</div>
+        <div style="font-size:13px; color:rgba(245,243,255,0.45); line-height:1.6;">Every new job posting from tracked competitors — surfaced in real time. Know what roles they're building, which teams they're growing, and when.</div>
       </div>
-      <p class="text-2xl text-zinc-400 mb-4">Competitive intelligence for talent acquisition</p>
-      <p class="text-sm text-yellow-400 mb-12">Currently in beta testing - Features may be updated based on user feedback</p>
-
-      <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-12 mb-12">
-        <h3 class="text-3xl font-bold mb-6">What it does</h3>
-        <p class="text-zinc-300 text-lg leading-relaxed">House Edge monitors competitor job postings, tracks hiring patterns, and provides real-time salary intelligence. Stay ahead of the competition.</p>
+      <div style="background:var(--ink); padding:32px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:12px;">SKILL ANALYSIS</div>
+        <div style="font-size:16px; font-weight:700; margin-bottom:8px;">Hiring Pattern Intel</div>
+        <div style="font-size:13px; color:rgba(245,243,255,0.45); line-height:1.6;">Identify which technologies, skills, and seniority levels competitors are prioritising. Spot strategic shifts in their talent strategy before they become public.</div>
       </div>
-
-      <!-- DEMO SECTION -->
-      <div class="mb-16">
-        <div class="text-center mb-12">
-          <h3 class="text-4xl font-black mb-4">Competitor Intelligence Demo</h3>
-          <p class="text-zinc-400 text-lg">See what your competitors are hiring for</p>
-        </div>
-
-        <!-- PROCESS FLOW -->
-        <div class="grid md:grid-cols-5 gap-4 mb-12">
-          <!-- Step 1 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">1</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Select</h4>
-            <p class="text-sm text-zinc-400">Choose competitor to track</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 2 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">2</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Scan</h4>
-            <p class="text-sm text-zinc-400">Monitor job postings</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 3 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">3</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Analyze</h4>
-            <p class="text-sm text-zinc-400">Extract hiring patterns</p>
-          </div>
-          <!-- Arrow -->
-          <div class="hidden md:flex items-center justify-center">
-            <div class="text-indigo-500 text-2xl">→</div>
-          </div>
-          <!-- Step 4 -->
-          <div class="bg-zinc-900/60 border border-indigo-500/30 rounded-xl p-6 text-center hover:border-indigo-500 transition-all group">
-            <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-4 group-hover:scale-110 transition-transform">4</div>
-            <h4 class="font-bold mb-2 text-indigo-400">Report</h4>
-            <p class="text-sm text-zinc-400">Intelligence insights</p>
-          </div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- INPUT FORM -->
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4">Tracking Settings</h4>
-            
-            <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-indigo-300 text-center font-bold">INTERACTIVE DEMO - Limited sample data</p>
-            </div>
-            
-            <form id="houseEdgeDemoForm" class="space-y-4 text-sm">
-              <div>
-                <label class="block text-zinc-400 mb-2">Company to Track</label>
-                <select id="houseCompany" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
-                  <option value="stripe">Stripe</option>
-                  <option value="notion">Notion</option>
-                  <option value="figma">Figma</option>
-                  <option value="openai">OpenAI</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Time Period</label>
-                <select id="houseTimePeriod" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
-                  <option value="7">Last 7 days</option>
-                  <option value="30" selected>Last 30 days</option>
-                  <option value="90">Last 90 days</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-zinc-400 mb-2">Department</label>
-                <select id="houseDepartment" class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-300 focus:border-indigo-500 focus:outline-none transition-colors">
-                  <option value="all">All Departments</option>
-                  <option value="engineering" selected>Engineering</option>
-                  <option value="product">Product</option>
-                  <option value="sales">Sales & Marketing</option>
-                </select>
-              </div>
-            </form>
-
-            <button type="button" onclick="runHouseEdgeDemo()" class="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-all">
-              Generate Intelligence Report
-            </button>
-          </div>
-
-          <!-- RESULTS -->
-          <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8">
-            <h4 class="text-xl font-bold mb-4">Intelligence Preview</h4>
-            
-            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-3 py-2 mb-6">
-              <p class="text-xs text-yellow-300 text-center">Sample data - Full product tracks live job postings</p>
-            </div>
-
-            <div id="houseEdgeResultsContainer" class="space-y-3">
-              <div class="text-center text-zinc-500 py-8">
-                <p class="text-lg mb-2">Select a competitor</p>
-                <p class="text-sm">Then click "Generate Intelligence Report"</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
-        <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
-          <h4 class="text-xl font-bold mb-4 text-indigo-400">Features</h4>
-          <ul class="space-y-3 text-zinc-300">
-            <li>✓ Competitor job tracking</li>
-            <li>✓ Hiring pattern analysis</li>
-            <li>✓ Salary benchmarking</li>
-            <li>✓ Market insights</li>
-          </ul>
-        </div>
-        <div class="bg-zinc-900/40 border border-white/10 rounded-2xl p-8">
-          <h4 class="text-xl font-bold mb-4 text-indigo-400">Pricing</h4>
-          <div class="text-5xl font-black mb-2">$149<span class="text-2xl text-zinc-500">/mo</span></div>
-          <p class="text-zinc-400">Real-time updates</p>
-        </div>
-      </div>
-
-      <div class="bg-black/50 border-2 border-zinc-700 rounded-2xl p-10">
-        <div class="bg-yellow-500/10 border border-yellow-500/50 rounded-lg px-4 py-3 mb-6">
-          <p class="text-yellow-300 text-center font-bold">⚠️ PRODUCT IN DEVELOPMENT</p>
-          <p class="text-yellow-200/80 text-sm text-center mt-2">The House Edge is currently undergoing final testing and optimization. Payment is temporarily disabled until full deployment is complete. Expected availability: Q2 2026</p>
-        </div>
-        
-        <h3 class="text-2xl font-bold mb-6 text-center text-zinc-400">Get Access (Coming Soon)</h3>
-        <div class="space-y-4">
-          <button type="button" disabled class="w-full bg-zinc-800 text-zinc-600 px-8 py-5 rounded-xl font-bold text-xl cursor-not-allowed opacity-50">
-            Pay with Card - $149/month (Unavailable)
-          </button>
-          
-          <div class="text-center text-zinc-500 text-sm">or</div>
-          
-          <button type="button" disabled class="w-full bg-zinc-800 text-zinc-600 px-8 py-5 rounded-xl font-bold text-xl cursor-not-allowed opacity-50">
-            Pay with Crypto - $149/month (Unavailable)
-          </button>
-          
-          <div class="border-t border-zinc-700 my-6"></div>
-          
-          <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-4">
-            <p class="text-center text-zinc-300 text-sm mb-3">Want early access when it launches?</p>
-            <a href="mailto:bernardliatme@outlook.com?subject=Join Waitlist - House Edge" class="block w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold text-center hover:bg-indigo-700 transition-all">
-              Join Waitlist
-            </a>
-          </div>
-        </div>
+      <div style="background:var(--ink); padding:32px;">
+        <div class="mono" style="font-size:9px; color:var(--accent); letter-spacing:0.2em; margin-bottom:12px;">SALARY DATA</div>
+        <div style="font-size:16px; font-weight:700; margin-bottom:8px;">Market Benchmarking</div>
+        <div style="font-size:13px; color:rgba(245,243,255,0.45); line-height:1.6;">Real-time salary range data from competitor job postings. Benchmark your compensation packages and adjust offers to stay competitive in the talent market.</div>
       </div>
     </div>
-  </section>
+
+    <div style="border:1px solid rgba(251,191,36,0.3); background:rgba(251,191,36,0.04); padding:40px; text-align:center; margin-bottom:60px;">
+      <div class="mono" style="font-size:9px; color:#fbbf24; letter-spacing:0.2em; margin-bottom:12px;">⚠ PRODUCT IN DEVELOPMENT</div>
+      <p style="font-size:14px; color:rgba(245,243,255,0.5);">The House Edge is completing final testing. Expected availability Q2 2026.</p>
+      <a href="mailto:bernardliatme@outlook.com?subject=Join Waitlist - House Edge" style="display:inline-block; margin-top:20px; padding:12px 32px; background:var(--accent); color:var(--ink); font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.15em; text-decoration:none;">Join Waitlist</a>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:32px 0; border-top:1px solid var(--white-border);">
+      <div>
+        <div class="mono" style="font-size:10px; color:rgba(245,243,255,0.3); letter-spacing:0.1em; margin-bottom:4px;">PRICING</div>
+        <div style="font-size:40px; font-weight:800; color:var(--accent); letter-spacing:-0.03em;">$149<span style="font-size:16px; color:rgba(245,243,255,0.3); font-weight:400;">/mo</span></div>
+      </div>
+      <div class="mono" style="font-size:11px; color:rgba(245,243,255,0.35);">Real-Time Updates Included</div>
+    </div>
+  </div>
 </div>
 
-<!-- PRIVACY POLICY PAGE -->
+<!-- PRIVACY -->
 <div id="privacy" class="page">
-  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
-    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
-  </nav>
-
-  <section class="py-32 px-10">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-5xl font-black mb-8">Privacy Policy</h2>
-      <div class="space-y-6 text-zinc-300 leading-relaxed">
-        <p>At Dealer's Choice, we take your privacy seriously. This policy outlines how we collect, use, and protect your personal information.</p>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Information We Collect</h3>
-        <p>We collect information you provide directly to us, including:</p>
-        <ul class="list-disc list-inside space-y-2 ml-4">
-          <li>Name and email address when you create an account</li>
-          <li>Payment information when you subscribe to our services</li>
-          <li>Usage data and analytics to improve our platform</li>
-        </ul>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">How We Use Your Information</h3>
-        <p>We use the information we collect to:</p>
-        <ul class="list-disc list-inside space-y-2 ml-4">
-          <li>Provide, maintain, and improve our services</li>
-          <li>Process your transactions and send related information</li>
-          <li>Send you technical notices and support messages</li>
-          <li>Respond to your comments and questions</li>
-        </ul>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Data Security</h3>
-        <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Contact Us</h3>
-        <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:bernardliatme@outlook.com" class="text-indigo-400 hover:text-indigo-300">bernardliatme@outlook.com</a></p>
-      </div>
+  <div class="back-nav"><span class="back-link" onclick="showPage('home')">← Dealer's Choice</span></div>
+  <div style="max-width:800px; margin:0 auto; padding:80px 40px;">
+    <h1 style="font-size:3rem; font-weight:800; letter-spacing:-0.04em; margin-bottom:48px;">Privacy Policy</h1>
+    <div style="display:flex; flex-direction:column; gap:24px; font-size:14px; line-height:1.75; color:rgba(245,243,255,0.6);">
+      <p>At Dealer's Choice Systems, your data privacy is a core design principle — not an afterthought. Our private AI model architecture means your candidate data, search parameters, and hiring intelligence never leave your account environment.</p>
+      <h3 style="color:#f5f3ff; font-size:18px; font-weight:700;">Information We Collect</h3>
+      <p>Name and email when you create an account. Payment information processed securely via Stripe. Usage data to improve platform performance. Search queries and candidate results — stored privately in your account.</p>
+      <h3 style="color:#f5f3ff; font-size:18px; font-weight:700;">What We Never Do</h3>
+      <p>We never share your search data with third-party AI providers. We never use your candidate data to train shared models. We never sell your information to data brokers or recruiters.</p>
+      <h3 style="color:#f5f3ff; font-size:18px; font-weight:700;">Contact</h3>
+      <p>Questions? <a href="mailto:bernardliatme@outlook.com" style="color:var(--accent);">bernardliatme@outlook.com</a></p>
     </div>
-  </section>
+  </div>
 </div>
 
-<!-- TERMS OF SERVICE PAGE -->
+<!-- TERMS -->
 <div id="terms" class="page">
-  <nav class="p-10 flex justify-between items-center mono text-[10px] uppercase tracking-[0.3em] border-b border-white/10">
-    <div class="font-black text-lg tracking-tighter italic cursor-pointer" onclick="showPage('home')">← Back to <span class="text-indigo-500">Home</span></div>
-  </nav>
-
-  <section class="py-32 px-10">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-5xl font-black mb-8">Terms of Service</h2>
-      <div class="space-y-6 text-zinc-300 leading-relaxed">
-        <p>By using Dealer's Choice services, you agree to these terms. Please read them carefully.</p>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Use of Services</h3>
-        <p>You may use our services only as permitted by law. You agree not to:</p>
-        <ul class="list-disc list-inside space-y-2 ml-4">
-          <li>Misuse or interfere with our services</li>
-          <li>Access our services using unauthorized means</li>
-          <li>Share your account credentials with others</li>
-          <li>Use our services for any illegal purpose</li>
-        </ul>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Subscriptions and Payments</h3>
-        <p>Our services are offered on a subscription basis. You agree to pay all fees associated with your subscription. Subscriptions automatically renew unless cancelled before the renewal date.</p>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Cancellation</h3>
-        <p>You may cancel your subscription at any time through your account settings or by contacting us. Cancellations take effect at the end of your current billing period.</p>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Changes to Terms</h3>
-        <p>We may modify these terms at any time. We will notify you of any material changes by email or through our services.</p>
-        
-        <h3 class="text-2xl font-bold text-white mt-8 mb-4">Contact Us</h3>
-        <p>If you have any questions about these Terms, please contact us at <a href="mailto:bernardliatme@outlook.com" class="text-indigo-400 hover:text-indigo-300">bernardliatme@outlook.com</a></p>
-      </div>
+  <div class="back-nav"><span class="back-link" onclick="showPage('home')">← Dealer's Choice</span></div>
+  <div style="max-width:800px; margin:0 auto; padding:80px 40px;">
+    <h1 style="font-size:3rem; font-weight:800; letter-spacing:-0.04em; margin-bottom:48px;">Terms of Service</h1>
+    <div style="display:flex; flex-direction:column; gap:24px; font-size:14px; line-height:1.75; color:rgba(245,243,255,0.6);">
+      <p>By using Dealer's Choice Systems services, you agree to these terms.</p>
+      <h3 style="color:#f5f3ff; font-size:18px; font-weight:700;">Acceptable Use</h3>
+      <p>You may use our platform only for legitimate recruitment and talent acquisition purposes. You agree not to misuse the LinkedIn data sourced through our platform or use it in violation of LinkedIn's terms of service.</p>
+      <h3 style="color:#f5f3ff; font-size:18px; font-weight:700;">Subscriptions</h3>
+      <p>Subscriptions renew automatically. A 3-day free trial is available on all plans. Cancel anytime before the trial ends at no charge. Cancellations take effect at the end of the current billing period.</p>
+      <h3 style="color:#f5f3ff; font-size:18px; font-weight:700;">Contact</h3>
+      <p>Questions? <a href="mailto:bernardliatme@outlook.com" style="color:var(--accent);">bernardliatme@outlook.com</a></p>
     </div>
-  </section>
+  </div>
 </div>
 
 <script>
-  // ============================================
-  // CONFIGURATION
-  // ============================================
   const WORKER_URL = 'https://payment-handler.bernardliatme.workers.dev';
 
-  const checkoutUrls = {
-    'stack': 'https://commerce.coinbase.com/checkout/6f25a0cc-6b87-4394-9f58-ade2b2fa9376',
-    'croupier': 'https://commerce.coinbase.com/checkout/30aac2b6-731e-458f-993b-bd89b32688ee',
-    'house-edge': 'https://commerce.coinbase.com/checkout/6617f455-c313-423c-bf6f-f41ed36fb866'
-  };
-
-  // ============================================
-  // LINKEDIN PROFILES DATABASE
-  // ============================================
-  const linkedinProfiles = [
-    {
-      name: 'Sarah Chen',
-      title: 'Senior Software Engineer',
-      company: 'Upstart',
-      location: 'San Francisco Bay Area',
-      years: 8,
-      skills: ['Python', 'React', 'AWS', 'Kubernetes', 'Docker', 'TypeScript'],
-      linkedin: 'https://linkedin.com/in/sarah-chen'
-    },
-    {
-      name: 'Michael Rodriguez',
-      title: 'Lead Backend Engineer',
-      company: 'Stripe',
-      location: 'San Francisco Bay Area',
-      years: 6,
-      skills: ['Node.js', 'Python', 'PostgreSQL', 'Redis', 'AWS', 'Go'],
-      linkedin: 'https://linkedin.com/in/michael-rodriguez'
-    },
-    {
-      name: 'Emily Thompson',
-      title: 'Full Stack Developer',
-      company: 'Notion',
-      location: 'San Francisco Bay Area',
-      years: 5,
-      skills: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'AWS'],
-      linkedin: 'https://linkedin.com/in/emily-thompson'
-    },
-    {
-      name: 'James Kim',
-      title: 'Staff Software Engineer',
-      company: 'Persona',
-      location: 'San Francisco Bay Area',
-      years: 10,
-      skills: ['Java', 'React', 'AWS', 'Kubernetes', 'GraphQL', 'Python'],
-      linkedin: 'https://linkedin.com/in/james-kim'
-    },
-    {
-      name: 'David Patel',
-      title: 'Senior Frontend Engineer',
-      company: 'Figma',
-      location: 'San Francisco Bay Area',
-      years: 7,
-      skills: ['React', 'TypeScript', 'WebGL', 'CSS', 'JavaScript'],
-      linkedin: 'https://linkedin.com/in/david-patel'
-    },
-    {
-      name: 'Jennifer Williams',
-      title: 'Data Engineer',
-      company: 'Databricks',
-      location: 'San Francisco Bay Area',
-      years: 5,
-      skills: ['Python', 'Spark', 'AWS', 'SQL', 'Kafka', 'Airflow'],
-      linkedin: 'https://linkedin.com/in/jennifer-williams'
-    },
-    {
-      name: 'Alex Martinez',
-      title: 'DevOps Engineer',
-      company: 'HashiCorp',
-      location: 'San Francisco Bay Area',
-      years: 6,
-      skills: ['Kubernetes', 'Docker', 'Terraform', 'AWS', 'Python', 'Go'],
-      linkedin: 'https://linkedin.com/in/alex-martinez'
-    },
-    {
-      name: 'Maria Garcia',
-      title: 'Machine Learning Engineer',
-      company: 'OpenAI',
-      location: 'San Francisco Bay Area',
-      years: 4,
-      skills: ['Python', 'TensorFlow', 'PyTorch', 'AWS', 'Kubernetes'],
-      linkedin: 'https://linkedin.com/in/maria-garcia'
-    },
-    {
-      name: 'Chris Anderson',
-      title: 'Engineering Manager',
-      company: 'Shopify',
-      location: 'San Francisco Bay Area',
-      years: 12,
-      skills: ['Ruby', 'React', 'AWS', 'Leadership', 'Agile', 'Python'],
-      linkedin: 'https://linkedin.com/in/chris-anderson'
-    },
-    {
-      name: 'Jessica Lee',
-      title: 'Product Engineer',
-      company: 'Linear',
-      location: 'San Francisco Bay Area',
-      years: 3,
-      skills: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'GraphQL'],
-      linkedin: 'https://linkedin.com/in/jessica-lee'
-    },
-    {
-      name: 'Daniel Brown',
-      title: 'Site Reliability Engineer',
-      company: 'Datadog',
-      location: 'New York',
-      years: 7,
-      skills: ['Python', 'Kubernetes', 'Prometheus', 'AWS', 'Go', 'Terraform'],
-      linkedin: 'https://linkedin.com/in/daniel-brown'
-    },
-    {
-      name: 'Amanda White',
-      title: 'iOS Engineer',
-      company: 'Discord',
-      location: 'San Francisco Bay Area',
-      years: 5,
-      skills: ['Swift', 'iOS', 'Objective-C', 'React Native', 'Firebase'],
-      linkedin: 'https://linkedin.com/in/amanda-white'
-    }
-  ];
-
-  // ============================================
-  // THE STACK DEMO
-  // ============================================
-  function runStackDemo() {
-    const campaignName = document.getElementById('stackCampaignName').value;
-    const recipients = document.getElementById('stackRecipients').value;
-    const template = document.getElementById('stackTemplate').value;
-    
-    const container = document.getElementById('stackResultsContainer');
-    container.innerHTML = `
-      <div class="text-center text-indigo-400 py-8">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
-        <p class="text-sm">Generating campaign...</p>
-      </div>
-    `;
-    
-    setTimeout(() => {
-      const templateNames = {
-        'cold': 'Cold Outreach Template',
-        'followup': 'Follow-up Template',
-        'warm': 'Warm Introduction Template'
-      };
-      
-      container.innerHTML = `
-        <div class="space-y-4">
-          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
-            <div class="text-sm text-zinc-400 mb-2">Campaign Summary</div>
-            <div class="font-bold text-white text-lg">${campaignName}</div>
-            <div class="text-xs text-zinc-500 mt-2">${templateNames[template]}</div>
-          </div>
-          
-          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-sm text-zinc-400">Target Recipients</span>
-              <span class="font-black text-indigo-400 text-2xl">${recipients}</span>
-            </div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-sm text-zinc-400">Est. Response Rate</span>
-              <span class="font-bold text-white">12-18%</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-zinc-400">Est. Time to Send</span>
-              <span class="font-bold text-white">~${Math.ceil(recipients/100)} hours</span>
-            </div>
-          </div>
-          
-          <div class="bg-zinc-800/50 border border-purple-500/30 rounded-lg p-4">
-            <div class="text-xs text-zinc-400 mb-2">Sample Email Preview</div>
-            <div class="bg-black/30 rounded p-3 text-xs text-zinc-300 font-mono">
-              Subject: Quick question about [Company Name]<br/><br/>
-              Hi [First Name],<br/><br/>
-              I noticed your experience with [Skill]...<br/>
-              <span class="text-zinc-500">[Personalized content continues...]</span>
-            </div>
-          </div>
-          
-          <div class="text-center text-zinc-500 text-sm pt-2">
-            Campaign ready - Full product sends actual emails
-          </div>
-        </div>
-      `;
-    }, 2000);
+  // ─── PAGE ROUTING ────────────────────────────────
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo(0, 0);
   }
 
-  // ============================================
-  // THE CROUPIER DEMO
-  // ============================================
+  // ─── DEMO DATA ───────────────────────────────────
+  const profiles =[
+    { name: 'Sarah Chen', title: 'Senior Software Engineer', company: 'Upstart', location: 'San Francisco Bay Area', years: 8, skills:['Python', 'React', 'AWS', 'Kubernetes', 'Docker', 'TypeScript'] },
+    { name: 'Michael Rodriguez', title: 'Lead Backend Engineer', company: 'Stripe', location: 'San Francisco Bay Area', years: 6, skills:['Node.js', 'Python', 'PostgreSQL', 'Redis', 'AWS', 'Go'] },
+    { name: 'Emily Thompson', title: 'Full Stack Developer', company: 'Notion', location: 'San Francisco Bay Area', years: 5, skills:['React', 'TypeScript', 'Node.js', 'MongoDB', 'AWS'] },
+    { name: 'James Kim', title: 'Staff Software Engineer', company: 'Persona', location: 'San Francisco Bay Area', years: 10, skills:['Java', 'React', 'AWS', 'Kubernetes', 'GraphQL', 'Python'] },
+    { name: 'David Patel', title: 'Senior Frontend Engineer', company: 'Figma', location: 'San Francisco Bay Area', years: 7, skills: ['React', 'TypeScript', 'WebGL', 'CSS', 'JavaScript'] },
+    { name: 'Jennifer Williams', title: 'Data Engineer', company: 'Databricks', location: 'San Francisco Bay Area', years: 5, skills:['Python', 'Spark', 'AWS', 'SQL', 'Kafka'] },
+    { name: 'Alex Martinez', title: 'DevOps Engineer', company: 'HashiCorp', location: 'San Francisco Bay Area', years: 6, skills:['Kubernetes', 'Docker', 'Terraform', 'AWS', 'Python', 'Go'] },
+    { name: 'Maria Garcia', title: 'ML Engineer', company: 'OpenAI', location: 'San Francisco Bay Area', years: 4, skills: ['Python', 'TensorFlow', 'PyTorch', 'AWS', 'Kubernetes'] }
+  ];
+
   function runDemo() {
     const jobTitle = document.getElementById('demoJobTitle').value.toLowerCase();
     const inputSkills = document.getElementById('demoSkills').value.split(',').map(s => s.trim().toLowerCase());
     const experience = document.getElementById('demoExperience').value;
     const location = document.getElementById('demoLocation').value.toLowerCase();
-    
     const container = document.getElementById('resultsContainer');
-    container.innerHTML = `
-      <div class="text-center text-indigo-400 py-8">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
-        <p class="text-sm">Searching LinkedIn profiles...</p>
-      </div>
-    `;
-    
+
+    container.innerHTML = '<div style="text-align:center; padding:48px 0;"><div class="mono" style="font-size:10px; color:var(--accent); letter-spacing:0.2em; animation: pulse 1s infinite;">SEARCHING LINKEDIN · AI RANKING...</div></div>';
+
     setTimeout(() => {
-      const matches = matchLinkedInProfiles(jobTitle, inputSkills, experience, location);
-      displayResults(matches, inputSkills);
-    }, 2000);
-  }
+      const scored = profiles.map(p => {
+        let score = 0;
+        if (p.title.toLowerCase().includes(jobTitle) || jobTitle.includes(p.title.toLowerCase().split(' ')[0])) score += 40;
+        else if (jobTitle.includes('engineer') && p.title.toLowerCase().includes('engineer')) score += 30;
+        const matched = p.skills.filter(s => inputSkills.some(i => s.toLowerCase().includes(i) || i.includes(s.toLowerCase())));
+        score += Math.min(45, matched.length * 11);
+        const expNums = experience.split('-').map(e => parseInt(e.replace('+', '')));
+        if (experience.includes('+') && p.years >= expNums[0]) score += 10;
+        else if (expNums.length === 2 && p.years >= expNums[0] && p.years <= expNums[1]) score += 10;
+        if (p.location.toLowerCase().includes(location.split(' ')[0])) score += 5;
+        return { ...p, score: Math.min(97, score), matched };
+      }).sort((a, b) => b.score - a.score).filter(p => p.score > 25).slice(0, 5);
 
-  function matchLinkedInProfiles(jobTitle, inputSkills, experience, location) {
-    const scoredProfiles = linkedinProfiles.map(profile => {
-      let score = 0;
-      
-      if (profile.title.toLowerCase().includes(jobTitle) || jobTitle.includes(profile.title.toLowerCase().split(' ')[0])) {
-        score += 40;
-      } else if (jobTitle.includes('engineer') && profile.title.toLowerCase().includes('engineer')) {
-        score += 30;
-      } else if (jobTitle.includes('developer') && profile.title.toLowerCase().includes('engineer')) {
-        score += 25;
+      if (!scored.length) {
+        container.innerHTML = '<div style="text-align:center; padding:60px 0; color:rgba(245,243,255,0.2);" class="mono">No matches — try broader criteria</div>';
+        return;
       }
-      
-      const matchingSkills = profile.skills.filter(skill => 
-        inputSkills.some(inputSkill => skill.toLowerCase().includes(inputSkill) || inputSkill.includes(skill.toLowerCase()))
-      );
-      score += Math.min(45, matchingSkills.length * 11);
-      
-      const expRange = experience.split('-').map(e => parseInt(e.replace('+', '')));
-      if (experience.includes('+')) {
-        if (profile.years >= expRange[0]) score += 10;
-      } else if (expRange.length === 2) {
-        if (profile.years >= expRange[0] && profile.years <= expRange[1]) score += 10;
-      }
-      
-      if (profile.location.toLowerCase().includes(location) || location.includes(profile.location.toLowerCase())) {
-        score += 5;
-      }
-      
-      return {
-        ...profile,
-        score: Math.min(98, score),
-        matchingSkills: matchingSkills
-      };
-    });
-    
-    return scoredProfiles
-      .sort((a, b) => b.score - a.score)
-      .filter(p => p.score > 30)
-      .slice(0, 5);
+
+      container.innerHTML = scored.map((c, i) => {
+        const rec = c.score >= 75 ? 'Hire' : c.score >= 50 ? 'Maybe' : 'Pass';
+        const recClass = c.score >= 75 ? 'score-high' : c.score >= 50 ? 'score-mid' : 'score-low';
+        return `
+          <div class="result-card fade-up" style="animation-delay:${i * 80}ms">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+              <div>
+                <div style="font-size:14px; font-weight:700; margin-bottom:2px;">${c.name}</div>
+                <div class="mono" style="font-size:10px; color:rgba(245,243,255,0.4);">${c.title} · ${c.company}</div>
+              </div>
+              <div style="display:flex; gap:8px; align-items:center; flex-shrink:0;">
+                <span class="mono" style="font-size:20px; font-weight:700; color:var(--accent);">${c.score}</span>
+                <span class="score-pill ${recClass}">${rec}</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;">
+              ${c.skills.slice(0,4).map(s => `<span class="mono" style="font-size:9px; padding:3px 8px; background:${c.matched.includes(s) ? 'rgba(168,85,247,0.15); color:var(--accent); border:1px solid var(--accent-border)' : 'rgba(255,255,255,0.05); color:rgba(245,243,255,0.35); border:1px solid var(--white-border)'};">${s}</span>`).join('')}
+            </div>
+          </div>`;
+      }).join('') + `<div class="mono" style="font-size:9px; color:rgba(245,243,255,0.2); text-align:center; margin-top:16px; letter-spacing:0.1em;">SHOWING ${scored.length} OF ${scored.length} MATCHES · DEMO DATABASE</div>`;
+    }, 1800);
   }
 
-  function displayResults(candidates, requestedSkills) {
-    const container = document.getElementById('resultsContainer');
-    
-    if (candidates.length === 0) {
-      container.innerHTML = `
-        <div class="text-center text-zinc-500 py-8">
-          <p class="text-lg mb-2">No matches found</p>
-          <p class="text-sm">Try adjusting your search criteria</p>
-        </div>
-      `;
-      return;
-    }
-    
-    let html = '';
-    
-    candidates.forEach((candidate, index) => {
-      const borderColor = candidate.score >= 90 ? 'indigo' : candidate.score >= 80 ? 'purple' : 'blue';
-      const bgColor = candidate.score >= 90 ? 'indigo' : candidate.score >= 80 ? 'purple' : 'blue';
-      
-      const displaySkills = [...new Set([...candidate.matchingSkills, ...candidate.skills.slice(0, 4)])].slice(0, 4);
-      
-      html += `
-        <div class="bg-zinc-800/50 border border-${borderColor}-500/30 rounded-lg p-4 hover:border-${borderColor}-500 transition-all animate-fadeIn" style="animation-delay: ${index * 0.1}s">
-          <div class="flex items-start justify-between mb-2">
-            <div class="flex-1">
-              <div class="font-bold text-white">${candidate.name}</div>
-              <div class="text-sm text-zinc-400">${candidate.title} @ ${candidate.company}</div>
-              <div class="text-xs text-zinc-500 mt-1">${candidate.location} • ${candidate.years} years exp</div>
-            </div>
-            <div class="bg-${bgColor}-500 text-white px-3 py-1 rounded-full text-sm font-black">${candidate.score}%</div>
-          </div>
-          <div class="flex flex-wrap gap-1 mt-3">
-            ${displaySkills.map(skill => {
-              const isMatch = candidate.matchingSkills.includes(skill);
-              return `<span class="text-xs ${isMatch ? 'bg-indigo-500/30 text-indigo-200 border border-indigo-500/50' : 'bg-zinc-700/50 text-zinc-400'} px-2 py-1 rounded">${skill}</span>`;
-            }).join('')}
-          </div>
-          <a href="${candidate.linkedin}" target="_blank" class="text-xs text-indigo-400 hover:text-indigo-300 mt-3 inline-block">
-            View LinkedIn Profile →
-          </a>
-        </div>
-      `;
-    });
-    
-    html += `
-      <div class="text-center text-zinc-500 text-sm pt-2">
-        Showing top ${candidates.length} matches from demo database
-      </div>
-    `;
-    
-    container.innerHTML = html;
-  }
-
-  // ============================================
-  // THE HOUSE EDGE DEMO
-  // ============================================
-  function runHouseEdgeDemo() {
-    const company = document.getElementById('houseCompany').value;
-    const timePeriod = document.getElementById('houseTimePeriod').value;
-    const department = document.getElementById('houseDepartment').value;
-    
-    const container = document.getElementById('houseEdgeResultsContainer');
-    container.innerHTML = `
-      <div class="text-center text-indigo-400 py-8">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
-        <p class="text-sm">Analyzing competitor data...</p>
-      </div>
-    `;
-    
-    setTimeout(() => {
-      const companyData = {
-        'stripe': { name: 'Stripe', openings: 127, avgSalary: '$165k', topRole: 'Backend Engineer' },
-        'notion': { name: 'Notion', openings: 43, avgSalary: '$145k', topRole: 'Full Stack Engineer' },
-        'figma': { name: 'Figma', openings: 38, avgSalary: '$155k', topRole: 'Product Designer' },
-        'openai': { name: 'OpenAI', openings: 89, avgSalary: '$185k', topRole: 'ML Engineer' }
-      };
-      
-      const data = companyData[company];
-      const multiplier = department === 'engineering' ? 1 : department === 'product' ? 0.4 : 0.3;
-      const openings = Math.round(data.openings * multiplier);
-      
-      container.innerHTML = `
-        <div class="space-y-4">
-          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
-            <div class="text-sm text-zinc-400 mb-2">Tracking</div>
-            <div class="font-bold text-white text-lg">${data.name}</div>
-            <div class="text-xs text-zinc-500 mt-1">${department === 'all' ? 'All Departments' : department.charAt(0).toUpperCase() + department.slice(1)}</div>
-          </div>
-          
-          <div class="bg-zinc-800/50 border border-indigo-500/30 rounded-lg p-4">
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-sm text-zinc-400">Active Job Postings</span>
-              <span class="font-black text-indigo-400 text-2xl">${openings}</span>
-            </div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-sm text-zinc-400">Avg. Salary Range</span>
-              <span class="font-bold text-white">${data.avgSalary}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-zinc-400">Most Hired Role</span>
-              <span class="font-bold text-white">${data.topRole}</span>
-            </div>
-          </div>
-          
-          <div class="bg-zinc-800/50 border border-purple-500/30 rounded-lg p-4">
-            <div class="text-xs text-zinc-400 mb-3">Top Requirements</div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">5+ years exp</span>
-              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">Python</span>
-              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">React</span>
-              <span class="text-xs bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full">AWS</span>
-            </div>
-          </div>
-          
-          <div class="text-center text-zinc-500 text-sm pt-2">
-            Sample data - Full product provides live tracking
-          </div>
-        </div>
-      `;
-    }, 2000);
-  }
-
-  // ============================================
-  // PAYMENT & AUTH FUNCTIONS
-  // ============================================
+  // ─── PAYMENT ─────────────────────────────────────
   async function openStripeCheckout(product) {
     try {
-      showLoadingModal('Creating checkout session...');
-      
-      const response = await fetch(`${WORKER_URL}/api/create-checkout`, {
+      showLoading('Creating checkout...');
+      const r = await fetch(`${WORKER_URL}/api/create-checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product })
       });
-      
-      const data = await response.json();
-      closeLoadingModal();
-      
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert('Failed to create checkout session. Please try again.');
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      closeLoadingModal();
-      alert('Error creating checkout. Please try again.');
-    }
-  }
-
-  function openCoinbaseCheckout(product) {
-    const checkoutUrl = checkoutUrls[product];
-    
-    if (!checkoutUrl) {
-      alert('⚠️ Checkout not configured. Please contact support.');
-      return;
-    }
-    
-    const width = 800;
-    const height = 900;
-    const left = (screen.width - width) / 2;
-    const top = (screen.height - height) / 2;
-    
-    window.open(
-      checkoutUrl, 
-      'coinbase_checkout', 
-      `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
-    );
-    
-    showPaymentWaitingModal(product);
+      const d = await r.json();
+      closeLoading();
+      if (d.url) window.location.href = d.url;
+      else alert('Failed to create checkout. Please try again.');
+    } catch(e) { closeLoading(); alert('Error. Please try again.'); }
   }
 
   async function validateTokenOnPage(product) {
-    const tokenInputId = product === 'stack' ? 'stackToken' : product === 'croupier' ? 'croupierToken' : 'houseToken';
-    const token = document.getElementById(tokenInputId).value.trim();
-    
-    if (!token) {
-      alert('Please enter your access token');
-      return;
-    }
-    
+    const el = document.getElementById(product === 'croupier' ? 'croupierToken' : 'stackToken');
+    const token = el ? el.value.trim() : '';
+    if (!token) { alert('Please enter your access token.'); return; }
     try {
-      showLoadingModal('Validating token...');
-      
-      const response = await fetch(`${WORKER_URL}/api/validate-token`, {
+      showLoading('Validating...');
+      const r = await fetch(`${WORKER_URL}/api/validate-token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token })
       });
-      
-      const result = await response.json();
-      closeLoadingModal();
-      
+      const result = await r.json();
+      closeLoading();
       if (result.valid) {
         localStorage.setItem('dealersToken', token);
-        localStorage.setItem('dealersProduct', product);
-        showDashboard(product);
+        showDashboard(product, token);
       } else {
-        alert('Invalid token. Please check your token or contact bernardliatme@outlook.com');
+        alert('Invalid token. Check your email or contact bernardliatme@outlook.com');
       }
-    } catch (error) {
-      console.error('Token validation error:', error);
-      closeLoadingModal();
-      alert('Error validating token. Please try again.');
-    }
+    } catch(e) { closeLoading(); alert('Error validating. Please try again.'); }
   }
 
-  function showLoadingModal(message) {
-    const modal = document.createElement('div');
-    modal.id = 'loading-modal';
-    modal.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4';
-    modal.innerHTML = `
-      <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-md w-full text-center">
-        <div class="mb-6">
-          <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-500 mx-auto"></div>
-        </div>
-        <h2 class="text-2xl font-bold mb-4">${message}</h2>
-        <p class="text-zinc-400">Please wait...</p>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
-
-  function closeLoadingModal() {
-    const modal = document.getElementById('loading-modal');
-    if (modal) modal.remove();
-  }
-
-  function showPaymentWaitingModal(product) {
-    const modal = document.createElement('div');
-    modal.id = 'payment-waiting-modal';
-    modal.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4';
-    modal.innerHTML = `
-      <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-md w-full text-center">
-        <div class="mb-6">
-          <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-500 mx-auto"></div>
-        </div>
-        <h2 class="text-2xl font-bold mb-4">Complete Your Payment</h2>
-        <p class="text-zinc-400 mb-6">Please complete your payment in the Coinbase Commerce window.</p>
-        <div class="bg-black/50 border border-indigo-500/30 rounded-lg p-6 mb-6">
-          <p class="text-sm text-zinc-300 mb-4">After payment is confirmed:</p>
-          <ol class="text-left text-sm text-zinc-400 space-y-2">
-            <li>Access token generated automatically</li>
-            <li>Token sent to your email</li>
-            <li>Use token to access dashboard</li>
-            <li>Issues? Email bernardliatme@outlook.com</li>
-          </ol>
-        </div>
-        <button onclick="closePaymentWaitingModal()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
-          Close
-        </button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
-
-  function closePaymentWaitingModal() {
-    const modal = document.getElementById('payment-waiting-modal');
-    if (modal) modal.remove();
-  }
-
- function showDashboard(product) {
-  const token = localStorage.getItem('dealersToken') || document.getElementById('croupierToken').value.trim();
-  
-  if (!token) {
-    alert('No token found. Please enter your access token.');
-    return;
-  }
-  
-  // Show loading state
-  showLoadingModal('Loading your dashboard...');
-  
-  // Fetch usage info from Cloudflare Worker
-  fetch(`${WORKER_URL}/api/get-usage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token })
-  })
-  .then(res => res.json())
-  .then(data => {
-    closeLoadingModal();
-    
-    if (data.error) {
-      alert('Error loading usage data: ' + data.error);
-      return;
-    }
-    
-    const usage = data.usage;
-    const percentUsed = ((usage.candidates_found / usage.limit) * 100).toFixed(1);
-    const billingDay = data.billing_cycle_start ? parseInt(data.billing_cycle_start.split('-')[2]) : 'N/A';
-    
-    const dashboardUrls = {
-      'stack': 'http://localhost:5678/webhook/stack',
-      'croupier': `https://primary-production-e5d2.up.railway.app/webhook/recruitment-form`,
-      'house-edge': 'http://localhost:5678/webhook/house-edge'
-    };
-    
-    const productNames = {
-      'stack': 'The Stack',
-      'croupier': 'The Croupier',
-      'house-edge': 'The House Edge'
-    };
-    
-    const dashboardDescriptions = {
-      'stack': 'Automate your candidate outreach with AI-powered email generation.',
-      'croupier': 'Search and rank LinkedIn profiles instantly with AI-powered matching.',
-      'house-edge': 'Monitor competitor hiring patterns and salary intelligence.'
-    };
-    
-    // Determine progress bar color based on usage
-    let progressColor = 'indigo';
-    let warningMessage = '';
-    
-    if (percentUsed >= 90) {
-      progressColor = 'red';
-      warningMessage = '<div class="bg-red-500/10 border border-red-500/30 rounded-lg p-3 mb-4 text-sm text-red-300">⚠️ You are approaching your monthly limit. Usage resets on day ' + billingDay + '.</div>';
-    } else if (percentUsed >= 75) {
-      progressColor = 'yellow';
-      warningMessage = '<div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 mb-4 text-sm text-yellow-300">⚠️ You have used 75% of your monthly limit.</div>';
-    }
-
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4';
-    modal.innerHTML = `
-      <div class="bg-zinc-900 border-2 border-indigo-500 rounded-2xl p-10 max-w-2xl w-full">
-        <div class="text-center mb-8">
-          <div class="text-6xl mb-4">🎉</div>
-          <h2 class="text-4xl font-black mb-4 text-indigo-400">Access Granted!</h2>
-          <p class="text-xl text-zinc-300 mb-2">${productNames[product]} Dashboard</p>
-          <p class="text-zinc-400">${dashboardDescriptions[product]}</p>
-        </div>
-        
-        ${warningMessage}
-        
-        <!-- USAGE DISPLAY -->
-        <div class="bg-black/50 border border-indigo-500/30 rounded-lg p-6 mb-6">
-          <div class="flex justify-between items-center mb-3">
-            <span class="text-zinc-400">Monthly Usage</span>
-            <span class="text-white font-bold">${usage.candidates_found.toLocaleString()} / ${usage.limit.toLocaleString()} candidates</span>
-          </div>
-          
-          <!-- Progress Bar -->
-          <div class="w-full bg-zinc-800 rounded-full h-4 mb-3 overflow-hidden">
-            <div class="bg-${progressColor}-500 h-4 rounded-full transition-all duration-500" style="width: ${percentUsed}%"></div>
-          </div>
-          
-          <div class="grid grid-cols-3 gap-4 text-center pt-3 border-t border-zinc-700">
-            <div>
-              <div class="text-xs text-zinc-500 mb-1">Used</div>
-              <div class="text-lg font-bold text-${progressColor}-400">${percentUsed}%</div>
+  async function showDashboard(product, token) {
+    showLoading('Loading The Croupier...');
+    try {
+      const r = await fetch(`${WORKER_URL}/api/get-usage`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
+      });
+      const d = await r.json();
+      closeLoading();
+      const usage = d.usage || {};
+      const pct = ((usage.candidates_found / usage.limit) * 100).toFixed(1);
+      const color = pct >= 90 ? '#f87171' : pct >= 75 ? '#fbbf24' : 'var(--accent)';
+      const dashUrl = product === 'croupier' ? `https://primary-production-e5d2.up.railway.app/webhook/recruitment-form` : '#';
+      const modal = document.createElement('div');
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(11,4,22,0.97);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+      modal.innerHTML = `
+        <div style="background:var(--ink);border:1px solid var(--accent-border);max-width:540px;width:100%;padding:60px 48px;">
+          <div class="mono" style="font-size:9px;color:var(--accent);letter-spacing:0.3em;margin-bottom:16px;">ACCESS GRANTED</div>
+          <h2 style="font-size:2.5rem;font-weight:800;letter-spacing:-0.04em;margin-bottom:40px;">${product === 'croupier' ? 'The Croupier' : 'The Stack'}</h2>
+          <div style="margin-bottom:32px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+              <span class="mono" style="font-size:10px;color:rgba(245,243,255,0.4);letter-spacing:0.1em;">MONTHLY USAGE</span>
+              <span class="mono" style="font-size:10px;color:var(--accent);">${(usage.candidates_found||0).toLocaleString()} / ${(usage.limit||0).toLocaleString()}</span>
             </div>
-            <div>
-              <div class="text-xs text-zinc-500 mb-1">Remaining</div>
-              <div class="text-lg font-bold text-white">${(usage.limit - usage.candidates_found).toLocaleString()}</div>
+            <div style="height:4px;background:rgba(255,255,255,0.08);width:100%;">
+              <div style="height:4px;background:${color};width:${pct}%;transition:width 0.6s;"></div>
             </div>
-            <div>
-              <div class="text-xs text-zinc-500 mb-1">Searches</div>
-              <div class="text-lg font-bold text-zinc-300">${usage.searches_this_month}</div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;">
+              <span class="mono" style="font-size:9px;color:rgba(245,243,255,0.25);">${pct}% used</span>
+              <span class="mono" style="font-size:9px;color:rgba(245,243,255,0.25);">${usage.searches_this_month||0} searches</span>
             </div>
           </div>
-          
-          <div class="text-xs text-zinc-500 mt-4 text-center">
-            Resets on day ${billingDay} of next month
-          </div>
-        </div>
-        
-        <div class="space-y-3">
-          <a href="${dashboardUrls[product]}" target="_blank" class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-5 rounded-xl font-black text-xl text-center hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105">
-            START USING ${productNames[product].toUpperCase()}
-          </a>
-          <button onclick="this.parentElement.parentElement.parentElement.remove()" class="w-full bg-zinc-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-zinc-700 transition-all">
-            Close
-          </button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  })
-  .catch(error => {
-    closeLoadingModal();
-    console.error('Dashboard error:', error);
-    alert('Error loading dashboard. Please try again.');
-  });
-};
-
-  // ============================================
-  // UI HELPERS
-  // ============================================
-  document.addEventListener('mousemove', (e) => {
-    const blob = document.getElementById('blob');
-   blob.style.left = e.clientX + 'px';
-    blob.style.top = e.clientY + 'px';
-  });
-
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-  const productCards = document.querySelectorAll('#productGrid > div');
-  productCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      const spotlight = card.querySelector('.product-spotlight');
-      if (spotlight) {
-        spotlight.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(99,102,241,0.15), transparent 50%)`;
-      }
-    });
-  });
-
-  function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(page => {
-      page.classList.remove('active');
-    });
-    document.getElementById(pageId).classList.add('active');
-    window.scrollTo(0, 0);
+          <a href="${dashUrl}" target="_blank" style="display:block;width:100%;padding:18px;background:var(--accent);color:var(--ink);font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.2em;text-align:center;text-decoration:none;font-weight:500;margin-bottom:12px;">Open The Croupier →</a>
+          <button onclick="this.parentElement.parentElement.remove()" style="width:100%;padding:14px;background:transparent;border:1px solid var(--white-border);color:rgba(245,243,255,0.4);font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;cursor:pointer;">Close</button>
+        </div>`;
+      document.body.appendChild(modal);
+    } catch(e) { closeLoading(); alert('Error loading dashboard.'); }
   }
+
+  function showLoading(msg) {
+    const m = document.createElement('div');
+    m.id = 'loading-modal';
+    m.style.cssText = 'position:fixed;inset:0;background:rgba(11,4,22,0.9);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    m.innerHTML = `<div class="mono" style="font-size:10px;color:var(--accent);letter-spacing:0.3em;text-transform:uppercase;">${msg}</div>`;
+    document.body.appendChild(m);
+  }
+  function closeLoading() { document.getElementById('loading-modal')?.remove(); }
 </script>
-
 </body>
 </html>
