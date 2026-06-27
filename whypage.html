@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedIn Recruiter Alternative — The Croupier | Dealer's Choice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000;--bg1:#080808;--bg2:#0e0e0e;--bg3:#161616;
+    --card:rgba(255,255,255,.03);--card-h:rgba(255,255,255,.055);
+    --b:rgba(255,255,255,.08);--b2:rgba(255,255,255,.12);--bh:rgba(168,85,247,.35);
+    --accent:#a855f7;--accent2:#c084fc;--green:#4ade80;--yellow:#facc15;--red:#f87171;
+    --t1:#fff;--t2:rgba(255,255,255,.52);--t3:rgba(255,255,255,.28);--t4:rgba(255,255,255,.14);
+    --mono:'Space Mono',monospace;--sans:'Inter',sans-serif;--display:'Syne',sans-serif;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--t1);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  button{cursor:pointer;border:none;outline:none;font-family:var(--sans);}
+  .sw{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+  nav{position:sticky;top:0;z-index:200;height:60px;display:flex;align-items:center;padding:0 24px;background:rgba(0,0,0,.7);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--b);}
+  .nav-logo{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:1px;margin-right:auto;}
+  .nav-logo .br{color:var(--t4);} .nav-logo .ac{color:var(--accent);}
+  .nav-cta{font-size:13px;font-weight:600;background:var(--accent);color:#000;padding:7px 16px;border-radius:8px;transition:background .15s,transform .1s;}
+  .nav-cta:hover{background:var(--accent2);transform:translateY(-1px);}
+
+  .back-nav{background:rgba(0,0,0,.85);border-bottom:1px solid var(--b);padding:14px 24px;display:flex;align-items:center;gap:10px;}
+  .back-link{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--t2);transition:color .15s;}
+  .back-link:hover{color:var(--t1);}
+  .bc-sep{color:var(--t4);font-size:12px;}
+  .bc-cur{font-family:var(--mono);font-size:10px;color:var(--t4);letter-spacing:.1em;text-transform:uppercase;}
+
+  .tag{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;padding:3px 10px;border-radius:999px;display:inline-block;}
+  .tag-accent{background:rgba(168,85,247,.1);color:var(--accent);border:1px solid rgba(168,85,247,.2);}
+  .tag-live{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);}
+
+  .hero{padding:72px 24px 48px;position:relative;overflow:hidden;text-align:center;}
+  .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:600px;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,rgba(168,85,247,.13) 0%,transparent 65%);}
+  .hero-inner{max-width:760px;margin:0 auto;position:relative;z-index:1;}
+  .hero-title{font-family:var(--display);font-size:clamp(40px,7vw,68px);font-weight:800;line-height:1.04;letter-spacing:-.03em;margin:18px 0 18px;}
+  .strike{color:#e7a9a9;text-decoration:line-through;text-decoration-color:rgba(231,169,169,.5);}
+  .gw{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,#e9d5ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .hero-sub{font-size:16px;color:var(--t2);line-height:1.65;max-width:540px;margin:0 auto 32px;}
+  .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:44px;}
+  .btn-primary{font-size:13px;font-weight:600;background:var(--accent);color:#000;padding:10px 22px;border-radius:8px;transition:background .15s,transform .1s,box-shadow .15s;display:inline-flex;align-items:center;gap:6px;}
+  .btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(168,85,247,.25);}
+  .btn-ghost{font-size:13px;font-weight:500;background:transparent;color:var(--t2);padding:10px 22px;border-radius:8px;border:1px solid var(--b2);transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+  .btn-ghost:hover{color:var(--t1);background:rgba(255,255,255,.05);}
+  .hero-stats{display:flex;align-items:center;justify-content:center;gap:28px;padding:18px 0;border-top:1px solid var(--b);border-bottom:1px solid var(--b);flex-wrap:wrap;}
+  .hstat-n{display:block;font-family:var(--mono);font-size:20px;font-weight:700;}
+  .hstat-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);}
+  .hstat-sep{width:1px;height:26px;background:var(--b);}
+
+  section{padding:72px 0;}
+  .sec-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:var(--accent);margin-bottom:14px;display:block;}
+  .sec-title{font-family:var(--display);font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.08;}
+
+  .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px;}
+  .pain-list{list-style:none;}
+  .pain-list li{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:12px;padding-left:18px;position:relative;}
+  .pain-list li::before{content:'—';position:absolute;left:0;color:var(--t4);}
+  .pain-callout{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:30px;display:flex;flex-direction:column;justify-content:center;}
+  .pain-callout p{font-family:var(--display);font-size:1.3rem;font-weight:700;line-height:1.35;}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px;}
+  .compare > div{border-radius:14px;padding:28px;}
+  .compare .them{background:var(--card);border:1px solid var(--b);}
+  .compare .us{background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.25);}
+  .compare h3{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;color:var(--t2);}
+  .compare .us h3{color:var(--accent);}
+  .compare ul{list-style:none;}
+  .compare li{font-size:13.5px;color:var(--t2);padding:9px 0;border-top:1px solid var(--b);}
+  .compare li:first-of-type{border-top:none;}
+
+  .out-box{background:var(--bg1);border:1px solid var(--b);border-radius:12px;padding:24px 26px;margin-top:30px;max-width:480px;}
+  .out-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);margin-bottom:12px;}
+  .out-score{font-family:var(--mono);font-size:32px;font-weight:700;letter-spacing:-.03em;margin-bottom:6px;}
+  .out-verdict{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;border-radius:4px;}
+  .out-body{font-family:var(--mono);font-size:11px;color:var(--t2);line-height:1.7;}
+
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:32px;}
+  .mcell{background:var(--bg1);border:1px solid var(--b);border-radius:10px;padding:18px 16px;transition:border-color .2s;}
+  .mcell:hover{border-color:rgba(168,85,247,.25);}
+  .mval{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent);letter-spacing:-.03em;}
+  .mlbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-top:3px;}
+
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px;}
+  .price-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:30px 26px;position:relative;display:flex;flex-direction:column;transition:border-color .2s;}
+  .price-card.featured{border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.05);}
+  .price-card.featured::before{content:'MOST POPULAR';position:absolute;top:-1px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:#000;background:var(--accent);padding:4px 14px;border-radius:0 0 6px 6px;}
+  .price-tier{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--t3);margin-bottom:12px;}
+  .price-amt{font-family:var(--mono);font-size:42px;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:4px;}
+  .price-amt span{font-size:14px;color:var(--t3);font-weight:400;}
+  .price-sub{font-family:var(--mono);font-size:10px;color:var(--t3);margin-bottom:22px;}
+  .price-features{list-style:none;flex:1;display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+  .price-features li{font-size:12.5px;color:var(--t2);display:flex;gap:8px;}
+  .price-features li::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:9px;flex-shrink:0;}
+  .price-btn{font-size:12.5px;font-weight:500;padding:10px 18px;border-radius:8px;border:1px solid var(--b2);background:transparent;color:var(--t2);text-align:center;transition:all .15s;}
+  .price-btn:hover{border-color:var(--accent);color:var(--t1);}
+  .price-btn.acc{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+  .price-btn.acc:hover{background:var(--accent2);}
+
+  details{border-bottom:1px solid var(--b);padding:16px 0;}
+  summary{cursor:pointer;font-weight:600;font-size:14px;list-style:none;}
+  summary::-webkit-details-marker{display:none;}
+  summary::before{content:'// ';color:var(--accent);}
+  details p{color:var(--t2);font-size:13.5px;line-height:1.7;margin-top:10px;max-width:640px;}
+
+  .cta-section{padding:110px 24px;text-align:center;position:relative;overflow:hidden;}
+  .cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 90% at 50% 50%,rgba(168,85,247,.08) 0%,transparent 70%);pointer-events:none;}
+  .cta-title{font-family:var(--display);font-size:clamp(32px,7vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:36px;position:relative;z-index:1;}
+  .cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;}
+
+  footer{border-top:1px solid var(--b);padding:28px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  .footer-l{font-family:var(--mono);font-size:10px;color:var(--t4);letter-spacing:.05em;}
+  .footer-links{display:flex;gap:24px;}
+  .footer-links a{font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:.05em;transition:color .15s;}
+  .footer-links a:hover{color:var(--t1);}
+
+  @media (max-width:860px){
+    .pain-grid,.compare,.pricing-grid{grid-template-columns:1fr;}
+    .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://dealers-choice-systems.vercel.app" class="nav-logo">
+    <span class="br">[</span>DEALER'S<span class="ac">CHOICE</span><span class="br">]</span>
+  </a>
+  <a href="https://dealers-choice-systems.vercel.app" class="nav-cta">Start free trial</a>
+</nav>
+<div class="back-nav">
+  <a href="https://dealers-choice-systems.vercel.app" class="back-link">← Dealer's Choice</a>
+  <span class="bc-sep">/</span>
+  <span class="bc-cur">Alternatives</span>
+  <span class="bc-sep">/</span>
+  <span class="bc-cur">LinkedIn Recruiter</span>
+</div>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <span class="tag tag-accent">LinkedIn Recruiter Alternative</span>
+    <h1 class="hero-title">Stop paying <span class="strike">$9,000/yr</span> for a <span class="gw">search bar.</span></h1>
+    <p class="hero-sub">The Croupier searches 100k+ LinkedIn profiles through your own private, fine-tuned AI model and returns a 0–100 score with a written Hire / Maybe / Pass verdict on every candidate — starting at $149/mo.</p>
+    <div class="hero-btns">
+      <a href="https://dealers-choice-systems.vercel.app" class="btn-primary">Start My Free 3-Day Trial →</a>
+      <a href="mailto:sales@asqsys.com?subject=Demo Request" class="btn-ghost">Book a demo ↗</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="hstat-n">45s</span><span class="hstat-l">Avg. Search Time</span></div>
+      <div class="hstat-sep"></div>
+      <div><span class="hstat-n">100k+</span><span class="hstat-l">Profiles Indexed</span></div>
+      <div class="hstat-sep"></div>
+      <div><span class="hstat-n">92%</span><span class="hstat-l">Match Accuracy</span></div>
+      <div class="hstat-sep"></div>
+      <div><span class="hstat-n">3-Day</span><span class="hstat-l">Free Trial</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sw">
+    <span class="sec-label">The problem</span>
+    <h2 class="sec-title">LinkedIn Recruiter hasn't changed in a decade. The talent market has.</h2>
+    <div class="pain-grid">
+      <ul class="pain-list">
+        <li>Post a job and wait 2 weeks for inbound to trickle in</li>
+        <li>Spend 3 days manually sourcing — Boolean search, scroll, repeat</li>
+        <li>Send 40 InMails and get 4 responses</li>
+        <li>Pay $9,000/yr per seat for the privilege of doing it manually</li>
+      </ul>
+      <div class="pain-callout">
+        <p>One search. 60 seconds. A ranked shortlist with reasons — not a list of profiles to read yourself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg1);border-top:1px solid var(--b);border-bottom:1px solid var(--b);">
+  <div class="sw">
+    <span class="sec-label">Head to head</span>
+    <h2 class="sec-title">One gives you a search bar. The other gives you a decision.</h2>
+    <div class="compare">
+      <div class="them">
+        <h3>LinkedIn Recruiter</h3>
+        <ul>
+          <li>A search bar and Boolean filters</li>
+          <li>150 InMail credits per month</li>
+          <li>No AI ranking — you read every profile yourself</li>
+          <li>No written reasoning on who to contact first</li>
+          <li>ATS sync is a paid add-on, if available at all</li>
+        </ul>
+      </div>
+      <div class="us">
+        <h3>The Croupier</h3>
+        <ul>
+          <li>One search, 45s avg., 100k+ profiles covered</li>
+          <li>Every candidate scored 0–100 by your own private model</li>
+          <li>Written Hire / Maybe / Pass verdict with strengths and concerns</li>
+          <li>Isolated fine-tuned model per account — nothing shared</li>
+          <li>One-click sync to 100Hires, Recruitee, JazzHR, SmartSuite, or Odoo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="out-box">
+      <div class="out-label">Example output</div>
+      <div class="out-score">87/100</div>
+      <div class="out-verdict">Hire</div>
+      <div class="out-body">Strong Python background (6y), AWS certified, led team of 8 engineers. Slightly over-qualified for IC role — may negotiate seniority expectations upward.</div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="mcell"><div class="mval">92%</div><div class="mlbl">Match Accuracy</div></div>
+      <div class="mcell"><div class="mval">3×</div><div class="mlbl">Faster Than Manual</div></div>
+      <div class="mcell"><div class="mval">0</div><div class="mlbl">Data Leaks</div></div>
+      <div class="mcell"><div class="mval">$9k</div><div class="mlbl">Saved vs Recruiter Seat</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sw">
+    <span class="sec-label">Plans</span>
+    <h2 class="sec-title">Priced for a team, not an enterprise procurement cycle</h2>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-amt">$149<span>/mo</span></div>
+        <div class="price-sub">1,000 candidates / month</div>
+        <ul class="price-features"><li>Private AI ranking</li><li>Professional profile search</li><li>Search history</li><li>Limited CSV export</li></ul>
+        <a href="https://dealers-choice-systems.vercel.app" class="price-btn">Start 3-Day Free Trial</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tier">Growth</div>
+        <div class="price-amt">$299<span>/mo</span></div>
+        <div class="price-sub">5,000 candidates / month</div>
+        <ul class="price-features"><li>Advanced private AI ranking</li><li>Search history + bookmarks</li><li>CSV export</li><li>Priority support</li></ul>
+        <a href="https://dealers-choice-systems.vercel.app" class="price-btn acc">Start 3-Day Free Trial</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Enterprise</div>
+        <div class="price-amt">$599<span>/mo</span></div>
+        <div class="price-sub">15,000 candidates / month</div>
+        <ul class="price-features"><li>Premium private AI ranking</li><li>Full history + bookmarks</li><li>CSV export + custom reports</li><li>Dedicated support</li></ul>
+        <a href="https://dealers-choice-systems.vercel.app" class="price-btn">Start 3-Day Free Trial</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg1);border-top:1px solid var(--b);">
+  <div class="sw" style="max-width:760px;">
+    <span class="sec-label">Before you switch</span>
+    <h2 class="sec-title" style="margin-bottom:20px;">Objections</h2>
+    <details open>
+      <summary>Is this just LinkedIn Recruiter with extra steps?</summary>
+      <p>No — The Croupier doesn't replace your LinkedIn account, it replaces the manual sourcing work you'd otherwise do inside Recruiter. You still see real LinkedIn profiles; you just stop reading every one of them yourself.</p>
+    </details>
+    <details>
+      <summary>Is my data safe?</summary>
+      <p>Dealer's Choice runs a dedicated, fine-tuned Llama 4 Instruct model isolated per account. Your searches, candidates, and job descriptions never leave your secure pipeline or train a shared model.</p>
+    </details>
+    <details>
+      <summary>What if I only hire occasionally?</summary>
+      <p>The Starter plan at $149/mo makes sense if you fill even one role per year. One LinkedIn Recruiter seat costs $9,000 and doesn't include AI ranking.</p>
+    </details>
+    <details>
+      <summary>Does it connect to my ATS?</summary>
+      <p>Yes — 100Hires, Recruitee, JazzHR, SmartSuite, and Odoo. Push a ranked candidate straight into your pipeline.</p>
+    </details>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">Your next hire is already<br>on LinkedIn.</h2>
+  <div class="cta-actions">
+    <a href="https://dealers-choice-systems.vercel.app" class="btn-primary">Start My Free 3-Day Trial →</a>
+    <a href="mailto:sales@asqsys.com?subject=Demo Request" class="btn-ghost">Book a demo ↗</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-l">// 2026 Dealer's Choice Systems. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="https://dealers-choice-systems.vercel.app">Privacy</a>
+    <a href="https://dealers-choice-systems.vercel.app">Terms</a>
+    <a href="mailto:sales@asqsys.com">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
